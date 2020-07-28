@@ -1,0 +1,32 @@
+$color-primary:#282C2F;
+
+.header{
+    background-color: $color-primary;
+    min-height: 10vh;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+  &-title {
+    font-size: 1.5rem;
+    color: white;
+    margin: 0 1rem;
+  }
+}
+
+.header-nav-link {
+  text-decoration: none;
+  color: rgb(175, 173, 173);
+  margin: 0 1rem;
+  transition: all .15s;
+
+    &:hover {
+      color: white;
+      cursor: pointer;
+      transform: scale(1.05);
+    }
+
+    &:active {
+      transform: translateY(.5px);
+    }
+}
