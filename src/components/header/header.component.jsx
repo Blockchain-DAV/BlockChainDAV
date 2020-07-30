@@ -19,6 +19,10 @@ const Header = () => (
           Verify
         </Link>
 
+        <Link className = "header-nav-link" to = "/upload">
+          Upload
+        </Link>
+
         <Link className = "header-nav-link" to = "/login">
           Login
         </Link>

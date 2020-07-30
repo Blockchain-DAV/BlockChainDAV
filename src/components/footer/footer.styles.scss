@@ -1,0 +1,12 @@
+$color-primary:#282C2F;
+
+.footer {
+   background-color: $color-primary;
+   min-height: 5vh;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   &-span {
+      color: white;
+   }
+}

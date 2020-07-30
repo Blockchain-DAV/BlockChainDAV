@@ -29,4 +29,8 @@ $color-primary:#282C2F;
     &:active {
       transform: translateY(.5px);
     }
+
+    &:focus {
+      color: white;
+    }
 }

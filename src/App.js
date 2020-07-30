@@ -7,19 +7,23 @@ import Home from './pages/home/home.component';
 import About from './pages/about/about.component';
 import Verify from './pages/verify/verify.component';
 import Login from './pages/login/login.component';
+import Upload from './pages/upload/upload.component';
+import Footer from './components/footer/footer.component';
 
 function App() {
   return (
     <div className="App">
       < Header />
-      <body className = "App-body">
+      <div className = "App-body">
         <Switch>
           <Route exact path = "/" component = {Home} />
           <Route path = "/about" component = {About} />
           <Route path = "/verify" component = {Verify} />
           <Route path = "/login" component = {Login} />
+          <Route path = "/upload" component = {Upload} />
         </Switch>
-      </body>
+      </div>
+      < Footer />
     </div>
   );
 }
