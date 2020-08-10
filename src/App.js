@@ -1,7 +1,6 @@
 import React from 'react';
 import './App.scss';
 import { Switch, Route } from 'react-router-dom';
-import Web3 from 'web3';
 
 import Header from './components/header/header.component';
 import Home from './pages/home/home.component';
@@ -15,20 +14,8 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      account: ''
-    }
-  }
 
-  componentDidMount() {
-    this.loadBlockChainData();
-  }
-
-  async loadBlockChainData() {
-    const web3 = new Web3(Web3.givenProvider); // Provider from Metamask
-    const accounts = await web3.eth.getAccounts(); // Get Ethereum blockchain account
-
-    this.setState({account: accounts[0]});
-    console.log(accounts[0]);
+    };
   }
 
   render() {
