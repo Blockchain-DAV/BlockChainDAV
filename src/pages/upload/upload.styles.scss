@@ -1,5 +1,44 @@
 .upload {
-   padding: 3.5rem;
-   width: 50%;
+    padding: 3.5rem;
+    width: 50%;
 }
 
+.float {
+    position: fixed;
+    width: 60px;
+    height: 60px;
+    bottom: 40px;
+    right: 40px;
+    background-color: #0c9;
+    color: #fff;
+    border-radius: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 2px 2px 3px #999;
+    cursor: pointer;
+}
+
+.my-float {
+    font-size: 25px;
+}
+
+.table {
+     margin-top: 0.5rem;
+    display: grid;
+    width: 750px;
+    grid-template-columns: 20% 50%;
+    border: 1px solid gray;
+
+    .key,
+    .value {
+        padding: 1rem;
+    }
+    .value {
+        border-left: 1px dotted gray;
+    }
+    .key {
+        background: rgba(255, 255, 255, 0.2);
+        font-weight: 700;
+    }
+}
