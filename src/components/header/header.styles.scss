@@ -6,6 +6,8 @@ $color-primary:#282C2F;
     display: flex;
     align-items: center;
     justify-content: flex-start;
+    position: sticky;
+    top:0;
 
   &-title {
     font-size: 1.5rem;

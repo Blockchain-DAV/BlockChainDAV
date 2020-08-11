@@ -1,17 +1,26 @@
 import React, { useState } from "react";
 import "./upload.styles.scss";
-import { Form, Input, Upload } from "antd";
-import Button from "../../components/button/button.component";
-import { InboxOutlined } from "@ant-design/icons";
-import { Spin } from "antd";
+import { Form, Input, Upload, Modal, Button, notification } from "antd";
+// import Button from "../../components/button/button.component";
+import { InboxOutlined, SmileOutlined } from "@ant-design/icons";
 import { address, abi } from "../../storehash";
-import Web3 from "web3";
+import web3 from "../../web3";
 import ipfs from "../../ipfs";
 import storehash from "../../storehash";
+
+export const openNotification = () => {
+    notification.open({
+        message: "About Transaction Reciept",
+        description: "You will be receiving transaction receipt shortly!",
+        icon: <SmileOutlined style={{ color: "#108ee9" }} />,
+    });
+};
 
 const UploadComponent = () => {
     const [form] = Form.useForm();
     const [fileList, setFileList] = useState([]);
+
+    //web3 initialisation
 
     //state for ipfs and smart contract
     const [buffer, setBuffer] = useState("");
@@ -22,9 +31,13 @@ const UploadComponent = () => {
     const [transactionHash, setTransactionHash] = useState(null);
 
     //loading states
-    const [onTransactionReceiptLoading, setTransactionReceiptLoading] = useState(null);
+
     const [transactionReceipt, setTransactionReceipt] = useState(null);
 
+    const [isDisabled, setIsDisabled] = useState(true);
+
+    //modal states
+    const [visible, setVisible] = useState(false);
 
     const props = {
         onRemove: file => {
@@ -58,20 +71,17 @@ const UploadComponent = () => {
 
     const onTransactionReceiptClick = async () => {
         try {
-            setTransactionReceiptLoading(true);
-            const web3 = await new Web3(Web3.givenProvider); // Provider from Metamask
-
             if (!transactionHash) {
-                console.log("NO transaction Hash provided");
+                console.log("No transaction Hash provided");
                 return;
             }
 
             // get Transaction Receipt in console on click
             await web3.eth.getTransactionReceipt(transactionHash, (err, txReceipt) => {
+                setVisible(true);
                 if (txReceipt !== null) {
-                    console.log("txReceipt: ", txReceipt);
+                    setIsDisabled(false);
                     setTransactionReceipt(txReceipt);
-                    setTransactionReceiptLoading(false);
                 }
             });
         } catch (error) {
@@ -100,13 +110,11 @@ const UploadComponent = () => {
                 reader.onloadend = async () => {
                     _buffer = await convertToBuffer(reader);
                 };
-                const web3 = new Web3(Web3.givenProvider);
                 const accounts = await web3.eth.getAccounts();
                 setMetamaskAccount(accounts[0]);
 
                 //smart contract
                 const smartContract = new web3.eth.Contract(abi, address);
-                console.log("smartContract: ", smartContract);
                 setSmartContract(smartContract);
 
                 //ipfs implementation
@@ -124,8 +132,9 @@ const UploadComponent = () => {
                                 from: accounts[0],
                             },
                             (error, transactionHash) => {
-                                console.log("transactionHash: ", transactionHash);
                                 setTransactionHash(transactionHash);
+                                setIsDisabled(false);
+                                openNotification();
                             }
                         );
                     });
@@ -137,6 +146,7 @@ const UploadComponent = () => {
             }
         } catch (err) {}
     };
+    console.log(ipfsHash, "I");
     return (
         <section className="upload">
             <h1> UPLOAD PAGE </h1>
@@ -154,23 +164,43 @@ const UploadComponent = () => {
                     </Upload.Dragger>
                 </Form.Item>
             </Form>
-            <Button title="submit" onClick={handleUpload} />
+            <Button key="submit" onClick={handleUpload}>
+                Upload
+            </Button>
 
-            {transactionReceipt
-                ? Object.entries(transactionReceipt)
-                      .filter(entries => entries[0] !== "logs" && entries[0] !== "logsBloom")
-                      .map((entries, i) => {
-                          return (
-                              <div key={i} className="table">
-                                  <div className="key">{entries[0]}</div>
-                                  <div className="value">
-                                      {entries[1] ? entries[1] || "true" : "---"}
-                                  </div>
-                              </div>
-                          );
-                      })
-                : onTransactionReceiptLoading && <Spin size="large" />}
-            <span className="float" onClick={onTransactionReceiptClick}>
+            <Modal
+                visible={visible}
+                title="Transaction Receipt"
+                onOk={() => setVisible(false)}
+                onCancel={() => setVisible(false)}
+                footer={[
+                    <Button key="submit" type="primary" onClick={() => setVisible(false)}>
+                        Ok
+                    </Button>,
+                ]}
+            >
+                {transactionReceipt ? (
+                    Object.entries(transactionReceipt)
+                        .filter(entries => entries[0] !== "logs" && entries[0] !== "logsBloom")
+                        .map((entries, i) => {
+                            return (
+                                <div key={i} className="table">
+                                    <div className="key">{entries[0]}</div>
+                                    <div className="value">
+                                        {entries[1] ? entries[1] || "true" : "---"}
+                                    </div>
+                                </div>
+                            );
+                        })
+                ) : (
+                    <h4>Please wait till the transaction is Confirmed!</h4>
+                )}
+            </Modal>
+
+            <span
+                className={`float ${isDisabled ? "disable" : ""}`}
+                onClick={isDisabled ? () => {} : () => onTransactionReceiptClick()}
+            >
                 <i className="far fa-file-alt my-float"></i>
             </span>
         </section>

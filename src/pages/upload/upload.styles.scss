@@ -1,6 +1,6 @@
 .upload {
     padding: 3.5rem;
-    width: 50%;
+    width: 60%;
 }
 
 .float {
@@ -19,6 +19,11 @@
     cursor: pointer;
 }
 
+.disable{
+   cursor: not-allowed;
+   opacity: 0.6;
+}
+
 .my-float {
     font-size: 25px;
 }
@@ -26,9 +31,11 @@
 .table {
      margin-top: 0.5rem;
     display: grid;
-    width: 750px;
-    grid-template-columns: 20% 50%;
+   //  width: 750px;
+    grid-template-columns: 30% 70%;
     border: 1px solid gray;
+
+    align-items: center;
 
     .key,
     .value {
@@ -38,6 +45,7 @@
         border-left: 1px dotted gray;
     }
     .key {
+         justify-self: center;
         background: rgba(255, 255, 255, 0.2);
         font-weight: 700;
     }
