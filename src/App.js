@@ -14,8 +14,12 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-
+      txReceipt : null
     };
+  }
+
+  sendParams = (data) => {
+    this.setState({txReceipt: data})
   }
 
   render() {
@@ -26,9 +30,18 @@ class App extends React.Component {
           <Switch>
             <Route exact path = "/" component = {Home} />
             <Route path = "/about" component = {About} />
-            <Route path = "/verify" component = {Verify} />
+            
             <Route path = "/login" component = {Login} />
-            <Route path = "/upload" component = {Upload} />
+            <Route path = "/upload" render = {
+              () => < Upload sendParams = {this.sendParams}/>
+              }
+            />
+
+            <Route path = "/verify" render = {
+                () => < Verify txReceipt = {this.state.txReceipt} />
+              } 
+            />
+
           </Switch>
         </div>
         < Footer />

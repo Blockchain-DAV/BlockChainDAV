@@ -16,7 +16,7 @@ export const openNotification = () => {
     });
 };
 
-const UploadComponent = () => {
+const UploadComponent = ({sendParams}) => {
     const [form] = Form.useForm();
     const [fileList, setFileList] = useState([]);
 
@@ -82,6 +82,8 @@ const UploadComponent = () => {
                 if (txReceipt !== null) {
                     setIsDisabled(false);
                     setTransactionReceipt(txReceipt);
+                    console.log(txReceipt);
+                    sendParams(txReceipt);
                 }
             });
         } catch (error) {
@@ -124,8 +126,10 @@ const UploadComponent = () => {
                     await ipfs.add(_buffer, (err, ipfsHash) => {
                         setIpfsHash(ipfsHash[0].hash);
 
+                        // Need to encrypt the IPFS hash
+
                         // call Ethereum method-sendHash to send this ipfs hash to ethereum contract
-                        // retrun transaction hash from ethereum
+                        // return transaction hash from ethereum
 
                         storehash.methods.sendHash(ipfsHash[0].hash).send(
                             {
@@ -133,6 +137,7 @@ const UploadComponent = () => {
                             },
                             (error, transactionHash) => {
                                 setTransactionHash(transactionHash);
+                                console.log(transactionHash);
                                 setIsDisabled(false);
                                 openNotification();
                             }
@@ -146,7 +151,8 @@ const UploadComponent = () => {
             }
         } catch (err) {}
     };
-    console.log(ipfsHash, "I");
+    //console.log(ipfsHash, "I");
+    
     return (
         <section className="upload">
             <h1> UPLOAD PAGE </h1>

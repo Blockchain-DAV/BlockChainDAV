@@ -1,3 +1,16 @@
 .verify {
    padding: 3.5rem;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+
+   &-button {
+      margin-top: 3rem;
+   }
+
+   &-result {
+      padding: 3rem;
+      font-size: 1.5rem;
+   }
 }
+

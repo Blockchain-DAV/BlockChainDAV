@@ -14,13 +14,13 @@ const Header = () => (
         <Link className = "header-nav-link" to = "/about">
           About
         </Link>
+        
+        <Link className = "header-nav-link" to = "/upload">
+          Upload
+        </Link>
 
         <Link className = "header-nav-link" to = "/verify">
           Verify
-        </Link>
-
-        <Link className = "header-nav-link" to = "/upload">
-          Upload
         </Link>
 
         <Link className = "header-nav-link" to = "/login">
