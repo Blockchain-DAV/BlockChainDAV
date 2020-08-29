@@ -9,8 +9,15 @@
    }
 
    &-result {
-      padding: 3rem;
-      font-size: 1.5rem;
+      margin-top: 5rem;
+      font-size: 1.25rem;
+   }
+
+   &-ipfs-image {
+      margin-top: 5rem;
+      border: 1px solid black;
+      height: 150vh;
+      width: 90vw;
    }
 }
 

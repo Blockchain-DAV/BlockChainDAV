@@ -6,7 +6,6 @@ import Header from './components/header/header.component';
 import Home from './pages/home/home.component';
 import About from './pages/about/about.component';
 import Verify from './pages/verify/verify.component';
-import Login from './pages/login/login.component';
 import Upload from './pages/upload/upload.component';
 import Footer from './components/footer/footer.component';
 
@@ -30,8 +29,6 @@ class App extends React.Component {
           <Switch>
             <Route exact path = "/" component = {Home} />
             <Route path = "/about" component = {About} />
-            
-            <Route path = "/login" component = {Login} />
             <Route path = "/upload" render = {
               () => < Upload sendParams = {this.sendParams}/>
               }

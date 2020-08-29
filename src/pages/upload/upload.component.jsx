@@ -20,8 +20,6 @@ const UploadComponent = ({sendParams}) => {
     const [form] = Form.useForm();
     const [fileList, setFileList] = useState([]);
 
-    //web3 initialisation
-
     //state for ipfs and smart contract
     const [buffer, setBuffer] = useState("");
     const [metamaskAccount, setMetamaskAccount] = useState(null);
@@ -30,10 +28,12 @@ const UploadComponent = ({sendParams}) => {
     const [ipfsHash, setIpfsHash] = useState(null);
     const [transactionHash, setTransactionHash] = useState(null);
 
+    // state for the message (encrypted IPFS hash) and signature
+    const [message, setMessage] = useState(null);
+    const [signature, setSignature] = useState(null);
+
     //loading states
-
     const [transactionReceipt, setTransactionReceipt] = useState(null);
-
     const [isDisabled, setIsDisabled] = useState(true);
 
     //modal states
@@ -82,7 +82,7 @@ const UploadComponent = ({sendParams}) => {
                 if (txReceipt !== null) {
                     setIsDisabled(false);
                     setTransactionReceipt(txReceipt);
-                    console.log(txReceipt);
+                    console.log("TxReceipt = ", txReceipt);
                     sendParams(txReceipt);
                 }
             });
@@ -112,46 +112,58 @@ const UploadComponent = ({sendParams}) => {
                 reader.onloadend = async () => {
                     _buffer = await convertToBuffer(reader);
                 };
+
                 const accounts = await web3.eth.getAccounts();
                 setMetamaskAccount(accounts[0]);
 
-                //smart contract
+                // smart contract
                 const smartContract = new web3.eth.Contract(abi, address);
                 setSmartContract(smartContract);
 
-                //ipfs implementation
-
-                //save document to IPFS,return its hash, and set hash to state
+                // ipfs implementation
+                // save document to IPFS, return its hash, and set hash to state
                 try {
                     await ipfs.add(_buffer, (err, ipfsHash) => {
                         setIpfsHash(ipfsHash[0].hash);
+                        console.log("IPFS hash = ", ipfsHash[0].hash);
+                        alert('File uploaded to IPFS!');
 
-                        // Need to encrypt the IPFS hash
-
-                        // call Ethereum method-sendHash to send this ipfs hash to ethereum contract
-                        // return transaction hash from ethereum
-
-                        storehash.methods.sendHash(ipfsHash[0].hash).send(
-                            {
-                                from: accounts[0],
-                            },
-                            (error, transactionHash) => {
-                                setTransactionHash(transactionHash);
-                                console.log(transactionHash);
-                                setIsDisabled(false);
-                                openNotification();
-                            }
-                        );
+                        // create message by encrypting the IPFS hash using SHA3
+                        const message = web3.utils.sha3(ipfsHash[0].hash); 
+                        setMessage(message);
+                        console.log("Encrypted IPFS hash(message) = ", message);
+                        
+                        // create digital signature
+                        web3.eth.sign(message, accounts[0],
+                          (err, signature) => {
+                            setSignature(signature);
+                            console.log("signature = ", signature);   
+                            
+                            // call Ethereum method-sendHash to send Ipfs hash to ethereum contract
+                            // return transaction hash from ethereum
+                            storehash.methods.sendHash(ipfsHash[0].hash).send(
+                                {
+                                    from: accounts[0],
+                                },
+                                (error, transactionHash) => {
+                                    setTransactionHash(transactionHash);
+                                    console.log(error, "TxHash = ", transactionHash);
+                                    setIsDisabled(false);
+                                    openNotification();
+                                }
+                            );
+                         });
+        
+                        
                     });
                 } catch (error) {
                     console.log(error);
                 }
-
-                // upload action here
             }
-        } catch (err) {}
+        } catch (error) {
+            console.log(error);
+        }
     };
-    //console.log(ipfsHash, "I");
     
     return (
         <section className="upload">
@@ -171,7 +183,7 @@ const UploadComponent = ({sendParams}) => {
                 </Form.Item>
             </Form>
             <Button key="submit" onClick={handleUpload}>
-                Upload
+                Upload and Sign
             </Button>
 
             <Modal
@@ -202,7 +214,20 @@ const UploadComponent = ({sendParams}) => {
                     <h4>Please wait till the transaction is Confirmed!</h4>
                 )}
             </Modal>
-
+            
+            {
+                message ?
+                <div className = "upload-results">
+                    Message: {message}
+                </div>
+                : null
+            }
+            { signature ?
+                <div className = "upload-results">
+                    Digital Signature: {signature}
+                </div>
+                : null
+            }
             <span
                 className={`float ${isDisabled ? "disable" : ""}`}
                 onClick={isDisabled ? () => {} : () => onTransactionReceiptClick()}
