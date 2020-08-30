@@ -1,5 +1,5 @@
 .verify {
-   padding: 3.5rem;
+   margin-bottom: 0rem;
    display: flex;
    flex-direction: column;
    align-items: center;
@@ -9,8 +9,10 @@
    }
 
    &-result {
-      margin-top: 5rem;
+      margin-top: 3rem;
       font-size: 1.25rem;
+      font-weight: 100;
+      color: white;
    }
 
    &-ipfs-image {

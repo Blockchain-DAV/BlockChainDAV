@@ -2,10 +2,10 @@ import React, { useState } from "react";
 //import web3 from "../../web3";
 import storehash from '../../storehash';
 
-import Button from '../../components/button/button.component';
+import Button from '../button/button.component';
 import './verify.styles.scss';
 
-import FormInput from '../../components/form/form.component';
+import FormInput from '../form/form.component';
 
 const Verify = () => {
    const [isValid, setIsValid] = useState("valid, invalid");
@@ -47,7 +47,6 @@ const Verify = () => {
 
    return(   
       <section className = "verify">
-         <div>VERIFY PAGE</div>
 
          <form onSubmit = {onSubmit}>
             <FormInput 
@@ -81,7 +80,7 @@ const Verify = () => {
                null
          }
 
-         {
+         {/* {
             ipfsHash ?
             <img className = "verify-ipfs-image" 
                src = {"https://ipfs.io/ipfs/"+ ipfsHash} 
@@ -89,7 +88,7 @@ const Verify = () => {
             />
             :
             null
-         }
+         } */}
 
       </section>  
    );

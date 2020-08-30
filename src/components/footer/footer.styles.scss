@@ -1,11 +1,19 @@
 $color-primary:#282C2F;
+$image_url: "https://i.dlpng.com/static/png/6804527_preview.png";
 
 .footer {
-   background-color: $color-primary;
+   grid-row: 4 / 5;
+   padding-top: 5rem;
+   
+   background-image: linear-gradient(to top left,#090a0a, #16181ada), url($image_url);
+   background-size: cover;
+   background-attachment: fixed;
+
    min-height: 5vh;
    display: flex;
    align-items: center;
    justify-content: center;
+   
    &-span {
       color: white;
    }

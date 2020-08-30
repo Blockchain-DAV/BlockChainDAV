@@ -1,27 +1,29 @@
-$color-primary:#282C2F;
+$color-primary:#129210c0;
 
 .button-div {
    display: flex;
-   justify-content: flex-start;
+   justify-content: center;
+   padding-top: 1.5rem;
 }
 
 .button {
    text-transform: uppercase;
    border-radius: .5rem;
-   height: 2.25rem;
-   width: 7rem;
+   height: 3rem;
+   width: 15rem;
    border: none;
    border: 1px solid $color-primary;
    background: $color-primary;
    cursor: pointer;
    color: white;
    outline: none;
+   font-size: 1.05rem;
+   letter-spacing: .5px;
    transition: all .2s;
    
-
    &:hover {
-      transform: translateY(-1.5px);
-      background: #282c2fe1;
+      transform: translateY(-.95px);
+      background: #15a712;
    }
 
    &:active {

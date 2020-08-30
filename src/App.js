@@ -4,8 +4,7 @@ import { Switch, Route } from 'react-router-dom';
 
 import Header from './components/header/header.component';
 import Home from './pages/home/home.component';
-import About from './pages/about/about.component';
-import Verify from './pages/verify/verify.component';
+import Guide from './pages/guide/guide.component';
 import Upload from './pages/upload/upload.component';
 import Footer from './components/footer/footer.component';
 
@@ -28,17 +27,11 @@ class App extends React.Component {
         <div className = "App-body">
           <Switch>
             <Route exact path = "/" component = {Home} />
-            <Route path = "/about" component = {About} />
+            <Route path = "/guide" component = {Guide} />
             <Route path = "/upload" render = {
               () => < Upload sendParams = {this.sendParams}/>
               }
             />
-
-            <Route path = "/verify" render = {
-                () => < Verify txReceipt = {this.state.txReceipt} />
-              } 
-            />
-
           </Switch>
         </div>
         < Footer />

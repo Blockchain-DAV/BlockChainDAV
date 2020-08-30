@@ -1,0 +1,8 @@
+.guide {
+   grid-row: 1 / 3;
+   display: grid;
+   grid-template-rows: 50% 50%;
+   grid-template-columns: 12.5vw repeat(2, 37.5vw) 12.5vw;
+
+   margin-top: 8rem;
+}

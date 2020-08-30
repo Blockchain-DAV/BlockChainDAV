@@ -1,34 +1,53 @@
 import React from 'react';
 import './header.styles.scss';
 import {Link} from 'react-router-dom';
+import Logo from "../images/logo.png";
 
-const Header = () => (
+import Verify from '../verify/verify.component';
+
+const Header = () => {
+  return (
    <header className="header">
-        <span className = "header-title">
-            BlockChainDVS
-        </span>
-        <Link className = "header-nav-link" to = "/">
-          Home
-        </Link>
+        <div className = "header-content">
+          
+          <div className = "header-title">
+            <img src = {Logo} className = "header-title-logo" alt = "no preview"/>
+            <span className = "header-title-bg">Block</span> 
+            <span className = "header-title-sm">dvs</span>
+          </div>
 
-        <Link className = "header-nav-link" to = "/about">
-          About
-        </Link>
+          <span className = "header-links">
+            <Link className = "header-nav-link" to = "/">
+              Home
+            </Link>
+            <Link className = "header-nav-link" to = "/guide">
+              Guide
+            </Link>
+            <Link className = "header-nav-link" to = "/upload">
+              Upload
+            </Link>
+            <Link className = "header-nav-link" to = "/verify">
+              Verify
+            </Link>
+            <a className = "header-nav-link" href = "https://github.com/Blockchain-DAV/BlockChainDAV">
+              Github
+            </a>
+          </span>
+
+          
+      </div>
+      <div className = "header-verify">
+        <div className = "header-verify-title">
+          Blockchain Document Verifier
+        </div>
         
-        <Link className = "header-nav-link" to = "/upload">
-          Upload
-        </Link>
-
-        <Link className = "header-nav-link" to = "/verify">
-          Verify
-        </Link>
-
-        <Link className = "header-nav-link" to = "/login">
-          Login
-        </Link>
-
+        <Verify />
+      </div>
+     
    </header>
-);
+  );
+
+}
 
 
 export default Header;
