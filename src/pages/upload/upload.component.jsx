@@ -167,7 +167,7 @@ const UploadComponent = ({sendParams}) => {
     
     return (
         <section className="upload">
-            <h1> UPLOAD PAGE </h1>
+            <h1> UPLOAD FILE TO IPFS </h1>
             <Form form={form} layout="vertical">
                 <Form.Item label="Filename" name="filename" rules={[{ required: true }]}>
                     <Input placeholder="filename" />

@@ -66,9 +66,8 @@ $image_url: "https://i.dlpng.com/static/png/6804527_preview.png";
       padding-bottom: 1.5rem;
     }
   }
-}
-
-.header-nav-link {
+  
+  &-nav-link {
   text-decoration: none;
   color: rgb(175, 173, 173);
   margin: 0 1rem;
@@ -87,4 +86,7 @@ $image_url: "https://i.dlpng.com/static/png/6804527_preview.png";
     &:focus {
       color: white;
     }
+  }
 }
+
+

@@ -22,7 +22,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="App">
+      <div className = "App">
         < Header />
         <div className = "App-body">
           <Switch>

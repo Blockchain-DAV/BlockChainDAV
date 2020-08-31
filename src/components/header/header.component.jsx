@@ -6,9 +6,12 @@ import Logo from "../images/logo.png";
 import Verify from '../verify/verify.component';
 
 const Header = () => {
+  let URL = window.location.pathname;
+  console.log(URL);
+
   return (
-   <header className="header">
-        <div className = "header-content">
+   <header className = "header">
+        <div className = "header-content" >
           
           <div className = "header-title">
             <img src = {Logo} className = "header-title-logo" alt = "no preview"/>
@@ -35,14 +38,15 @@ const Header = () => {
           </span>
 
           
-      </div>
-      <div className = "header-verify">
-        <div className = "header-verify-title">
-          Blockchain Document Verifier
         </div>
-        
-        <Verify />
-      </div>
+
+        <div className = "header-verify">
+          <div className = "header-verify-title">
+            Blockchain Document Verifier
+          </div>
+          
+          <Verify />
+        </div>
      
    </header>
   );
