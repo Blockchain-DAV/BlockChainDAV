@@ -6,8 +6,6 @@ import Logo from "../images/logo.png";
 import Verify from '../verify/verify.component';
 
 const Header = () => {
-  let URL = window.location.pathname;
-  console.log(URL);
 
   return (
    <header className = "header">

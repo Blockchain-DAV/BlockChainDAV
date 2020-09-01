@@ -9,6 +9,7 @@
   display: grid;
   grid-template-rows: [section-1-start]50% [section-2-start]50% [footer-start];
   grid-template-columns: 12.5vw 75vw 12.5vw;
+  background-color: rgb(253, 253, 253);
 }
 
 .address {

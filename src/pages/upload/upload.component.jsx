@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import "./upload.styles.scss";
 import { Form, Input, Upload, Modal, Button, notification } from "antd";
-// import Button from "../../components/button/button.component";
+import emailjs from 'emailjs-com'
+
 import { InboxOutlined, SmileOutlined } from "@ant-design/icons";
 import { address, abi } from "../../storehash";
 import web3 from "../../web3";
@@ -19,6 +20,9 @@ export const openNotification = () => {
 const UploadComponent = ({sendParams}) => {
     const [form] = Form.useForm();
     const [fileList, setFileList] = useState([]);
+
+    // state for recepient email
+    const [email, setEmail] = useState('');
 
     //state for ipfs and smart contract
     const [buffer, setBuffer] = useState("");
@@ -91,7 +95,33 @@ const UploadComponent = ({sendParams}) => {
         }
     };
 
-    const handleUpload = async () => {
+    const handleChange = e => {
+        setEmail(e.target.value);
+    }
+
+    const sendEmail = async() => {
+        if (message || signature) {
+            // Send Tx receipt OR message + signature to recepient email
+            const credentials = `MESSAGE: ${message} SIGNATURE: ${signature}`;
+
+            let templateParams = {
+                from_name: '', // issuer email
+                to_name: email, // recepient email
+                subject: 'Credentials for Document verification',
+                message_html: credentials
+            }
+
+            await emailjs.send(
+                // Enter params here
+            );
+            alert("Credentials sent to recepient!")
+        }
+        else {
+            alert("Please Upload and Sign first!")
+        } 
+    }
+       
+    const handleUpload = async (e) => {
         try {
             const isFileAvailable = fileList.length === 1;
             if (!isFileAvailable) {
@@ -141,20 +171,19 @@ const UploadComponent = ({sendParams}) => {
                             
                             // call Ethereum method-sendHash to send Ipfs hash to ethereum contract
                             // return transaction hash from ethereum
+                            // send hash to recepient email
                             storehash.methods.sendHash(ipfsHash[0].hash).send(
                                 {
                                     from: accounts[0],
                                 },
                                 (error, transactionHash) => {
                                     setTransactionHash(transactionHash);
-                                    console.log(error, "TxHash = ", transactionHash);
+                                    console.log("TxHash = ", transactionHash);
                                     setIsDisabled(false);
                                     openNotification();
                                 }
-                            );
-                         });
-        
-                        
+                            );                           
+                         });                        
                     });
                 } catch (error) {
                     console.log(error);
@@ -167,10 +196,13 @@ const UploadComponent = ({sendParams}) => {
     
     return (
         <section className="upload">
-            <h1> UPLOAD FILE TO IPFS </h1>
+            <h1> UPLOAD AND SIGN DOCUMENTS </h1>
             <Form form={form} layout="vertical">
                 <Form.Item label="Filename" name="filename" rules={[{ required: true }]}>
                     <Input placeholder="filename" />
+                </Form.Item>
+                <Form.Item label="Recepient email" name="email" rules={[{ required: true }]}>
+                    <Input placeholder="email" onChange = {handleChange} />
                 </Form.Item>
                 <Form.Item label="Dragger" name="dragger" rules={[{ required: true }]}>
                     <Upload.Dragger {...props}>
@@ -184,6 +216,9 @@ const UploadComponent = ({sendParams}) => {
             </Form>
             <Button key="submit" onClick={handleUpload}>
                 Upload and Sign
+            </Button>
+            <Button key="submit" onClick={sendEmail}>
+                Send to recepient
             </Button>
 
             <Modal
