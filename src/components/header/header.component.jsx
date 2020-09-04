@@ -45,6 +45,7 @@ const Header = () => {
           
           <Verify />
         </div>
+        
      
    </header>
   );

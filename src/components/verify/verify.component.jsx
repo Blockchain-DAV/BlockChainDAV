@@ -8,8 +8,8 @@ import './verify.styles.scss';
 import FormInput from '../form/form.component';
 
 const Verify = () => {
-   const [isValid, setIsValid] = useState("valid, invalid");
    const [messageHash, setMessageHash] = useState("");
+   const [issuerAddress, setIssuerAddress] = useState("");
    const [signHash, setSignHash] = useState("");
    const [result, setResult] = useState("");
    const [ipfsHash, setIpfsHash] = useState("");
@@ -23,38 +23,38 @@ const Verify = () => {
       const {value} = event.target;
       setSignHash(value);
    }
+
+   const handleAddressChange = event => {
+      const {value} = event.target;
+      setIssuerAddress(value);
+   }
   
    // Recover the issuer's ethereum address 
    const onSubmit = async(event) => {
       event.preventDefault();
       try{
          const result = await storehash.methods.recover(messageHash, signHash).call();
-         console.log(result);
          setResult(result);
-         setIsValid("valid");
-
-         // get the Ipfs hash
-         const ipfsHash = await storehash.methods.getHash().call();
-         setIpfsHash(ipfsHash);
-         console.log(ipfsHash); 
-
+         
+         if (result === issuerAddress) {
+            // VERIFICATION LOGIC
+         }
+ 
       }
       catch(err) {
-         setIsValid("invalid");
          console.log(err);
       }
    }      
 
    return(   
       <section className = "verify">
-
          <form onSubmit = {onSubmit}>
             <FormInput 
                name = "message"
                type = "message"
                value = {messageHash}
                handleChange = {handleMessageChange}
-               label = "Enter Message"
+               label = "Message"
                required
             />
 
@@ -63,24 +63,26 @@ const Verify = () => {
                type = "sign"
                value = {signHash}
                handleChange = {handleSignChange}
-               label = "Enter Signature"
+               label = "Signature"
                required
             />
 
-            <Button title = "Verify" type = "submit" onClick = {onSubmit} />
+            <FormInput 
+               name = "address"
+               type = "address"
+               value = {issuerAddress}
+               handleChange = {handleAddressChange}
+               label = "Issuer's public key"
+               required
+            />
+            <Button title = "Verify Document" type = "submit" onClick = {onSubmit} />
          </form>
 
          {
-            result || isValid === "valid" ?
-               <span className = "verify-result">Signed by: {result}</span>
-            :   
-            isValid === "invalid" ?            
-               <span className = "verify-result">Message and signature do not match!</span>
-            :
-               null
+            // VERIFICATION LOGIC HERE
          }
 
-         {/* {
+         {/* { 
             ipfsHash ?
             <img className = "verify-ipfs-image" 
                src = {"https://ipfs.io/ipfs/"+ ipfsHash} 

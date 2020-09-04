@@ -111,9 +111,10 @@ const UploadComponent = ({sendParams}) => {
                 message_html: credentials
             }
 
-            await emailjs.send(
-                // Enter params here
+            await emailjs.send (
+                
             );
+
             alert("Credentials sent to recepient!")
         }
         else {
