@@ -1,15 +1,14 @@
 .App {
-  overflow-x: hidden;
+  overflow: hidden;
   display: grid;
-  grid-template-rows: 95vh repeat(2, 100vh) 30vh;
+  grid-template-rows: 10vh 90vh repeat(2, 100vh) 30vh;
 }
-
+// $image_url: 'https://i.dlpng.com/static/png/6804527_preview.png';
 .App-body {
-  grid-row: 2 / 4;
+  grid-row: 2 / 5;
   display: grid;
-  grid-template-rows: [section-1-start]50% [section-2-start]50% [footer-start];
   grid-template-columns: 12.5vw 75vw 12.5vw;
-  background-color: rgb(253, 253, 253);
+  background-color: white;
 }
 
 .address {

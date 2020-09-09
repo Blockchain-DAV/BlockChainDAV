@@ -2,10 +2,10 @@ $color-primary:#282C2F;
 $image_url: "https://i.dlpng.com/static/png/6804527_preview.png";
 
 .footer {
-   grid-row: 4 / 5;
+   grid-row: 5 / 6;
    padding-top: 5rem;
    
-   background-image: linear-gradient(to top left,#090a0a, #16181ada), url($image_url);
+   background-image: linear-gradient(to right,#000000, #000000bd), url($image_url);
    background-size: cover;
    background-attachment: fixed;
 

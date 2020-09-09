@@ -1,14 +1,12 @@
 $color-primary:#282C2F;
-$image_url: "https://i.dlpng.com/static/png/6804527_preview.png";
+$image_url: 'https://i.dlpng.com/static/png/6804527_preview.png';
 
 .header {
     grid-row: 1 / 2;
     display: grid;
     grid-template-columns: 12.5vw 75vw 12.5vw;
-    grid-template-rows: 15% 75%;
-    background-image: linear-gradient(to top left,#090a0a, #16181ae8), url($image_url);
-    background-size: cover;
-    background-attachment: fixed;
+    //grid-template-rows: 15% 75%;
+    background-color: black;
 
   &-content {
       grid-column: 2 / 3;
@@ -23,50 +21,32 @@ $image_url: "https://i.dlpng.com/static/png/6804527_preview.png";
     color: white;
 
     &-logo {
-      width: 2.5rem;
-      height: 2.5rem;
+      width: 1.5rem;
+      height: 1.5rem;
     }
 
     &-bg {
       margin-left: .5rem;
       font-weight: bold;
-      font-size: 2.25rem;
+      font-size: 1.5rem;
       text-transform: uppercase;
     }
     &-sm {
       margin-left: 3px;
       font-weight: 100;
-      font-size: 2.25rem;
+      font-size: 1.5rem;
       text-transform: uppercase;
     }
   }
 
   &-links {
     font-weight: bold;
-    font-size: .85rem;
+    font-size: .80rem;
     margin-left: auto;
     text-transform: uppercase;
   }
 
-  &-verify {
-    grid-row: 2 / 3;
-    grid-column: 2 / 3;
 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    &-title {
-      font-weight: 100;
-      font-size: 2.25rem;
-      font-family: 'Segoe UI';
-     // letter-spacing: -.85px;
-      color: white;
-      padding-bottom: 1.5rem;
-    }
-  }
-  
   &-nav-link {
   text-decoration: none;
   color: rgb(175, 173, 173);

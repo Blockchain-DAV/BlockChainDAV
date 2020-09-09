@@ -2,10 +2,10 @@ import React, { useState } from "react";
 //import web3 from "../../web3";
 import storehash from '../../storehash';
 
-import Button from '../button/button.component';
+import Button from '../../components/button/button.component';
 import './verify.styles.scss';
 
-import FormInput from '../form/form.component';
+import FormInput from '../../components/form/form.component';
 
 const Verify = () => {
    const [messageHash, setMessageHash] = useState("");
@@ -13,6 +13,7 @@ const Verify = () => {
    const [signHash, setSignHash] = useState("");
    const [result, setResult] = useState("");
    const [ipfsHash, setIpfsHash] = useState("");
+   const [valid, setValid] = useState(false);
 
    const handleMessageChange = event => {
       const {value} = event.target;
@@ -35,9 +36,14 @@ const Verify = () => {
       try{
          const result = await storehash.methods.recover(messageHash, signHash).call();
          setResult(result);
-         
+         console.log(result);
          if (result === issuerAddress) {
-            // VERIFICATION LOGIC
+            setValid(true);
+            console.log('Signature is Valid');
+         }
+         else {
+            setValid(false);
+            console.log('Signature is not Valid');
          }
  
       }

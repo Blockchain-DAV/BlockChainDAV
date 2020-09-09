@@ -1,11 +1,108 @@
+$image_url: 'https://i.dlpng.com/static/png/6804527_preview.png';
+
 .home {
-   grid-row: 1 / 3;
+   grid-row: 1 / -1;
+   grid-column: 1 / -1;
    display: grid;
-   grid-template-rows: 50% 50%;
+   grid-template-rows: 90vh repeat(2, 100vh);
    grid-template-columns: 12.5vw repeat(2, 37.5vw) 12.5vw;
 
-   &-section-1 {
+   &-section-0 {
       grid-row: 1 / 2;
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: 12.5vw repeat(2, 37.5vw) 12.5vw;
+      background-image: linear-gradient(to right,#000000, #000000bd), url($image_url);
+
+      &-content-0 {
+         grid-column: 2 / -2;
+         padding: 4rem;
+         display: flex;
+         flex-direction: column;
+         justify-content: center;
+         align-items: center;
+         color: white;
+
+         &-title-0 {
+            letter-spacing: -0.02px;
+            text-transform: uppercase;
+            font-size: 2.95rem;
+            font-weight: 600;
+            font-family: Tahoma, sans-serif;
+         }
+
+         &-title-1 {
+            font-family: Tahoma, sans-serif;
+            font-size: 1.5rem;
+            font-weight: 100;
+         }
+      }
+
+      &-content-1 {
+         grid-column: 2 / -2;
+         display: flex;
+         justify-content: center;
+         margin-top: -6.5rem;
+
+         %button-style {
+            height: 3.5rem;
+            width: 15rem;
+            border-radius: 2rem;
+            font-size: 1rem;
+            transition: all .2s;
+            color: white;
+            background-color: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+         }
+
+         &-button-1 {
+            @extend %button-style;
+            margin-right: 1rem;
+            border: 1px solid green;
+
+            &:hover {
+               cursor: pointer;
+               background-color: #129210c4;
+               transform: scale(1.01);
+            }
+
+            &:active {
+               transform: translateY(1px);
+            }
+
+            &:focus {
+               outline-style: none;
+            }
+         }
+
+         &-button-2 {
+            @extend %button-style;
+            margin-left: 1rem;
+            border: 1px solid grey;
+         
+            &:hover {
+               cursor: pointer;
+               background-color: rgba(255, 255, 255, 0.226);
+               transform: scale(1.01);
+            }
+
+            &:active {
+               transform: translateY(1px);
+            }
+
+            &:focus {
+               outline-style: none;
+            }
+         }
+
+
+      }
+   }
+
+   &-section-1 {
+      grid-row: 2 / 3;
       grid-column: 1 / -1;
       margin-top: 8rem;
       border-bottom: 1px solid rgb(224, 228, 221);
@@ -36,7 +133,7 @@
    }
 
    &-section-2 {
-      grid-row: 2 / 3;
+      grid-row: 3 / 4;
       grid-column: 2 / -2;
       margin-top: 8rem;
       display: grid;

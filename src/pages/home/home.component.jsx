@@ -1,10 +1,33 @@
 import React from 'react';
 import './home.styles.scss';
+import {Link} from 'react-router-dom';
 
 
 const Home = () => {
    return (
       <section className = "home">
+         <section className = "home-section-0">
+            <div className = "home-section-0-content-0">
+               <span className = "home-section-0-content-0-title-0">
+                  Document Verification system
+               </span>
+               <span className = "home-section-0-content-0-title-1">
+                  Blockchain based verifier using IPFS and Ethereum
+               </span>
+            </div>
+            <div className = "home-section-0-content-1">
+               <Link className = "home-section-0-content-1-button-1" to = "/upload">
+                  <div className = "home-section-0-content-1-button-1-text">
+                     Get Started
+                  </div>
+               </Link>
+               <Link className = "home-section-0-content-1-button-2" to = "/guide">
+                  <div className = "home-section-0-content-1-button-2-text">
+                     Learn More
+                  </div>
+               </Link>
+            </div>
+         </section>
          <section className = "home-section-1">
             <div className = "home-section-1-content-1">
                <h1 className = "home-section-1-content-1-title">

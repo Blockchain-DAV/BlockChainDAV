@@ -112,7 +112,7 @@ const UploadComponent = ({sendParams}) => {
             }
 
             await emailjs.send (
-                
+                // credentials here
             );
 
             alert("Credentials sent to recepient!")

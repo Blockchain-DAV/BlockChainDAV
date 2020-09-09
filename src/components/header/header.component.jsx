@@ -1,9 +1,7 @@
 import React from 'react';
 import './header.styles.scss';
 import {Link} from 'react-router-dom';
-import Logo from "../images/logo.png";
-
-import Verify from '../verify/verify.component';
+import Logo from "../images/blockchain.png";
 
 const Header = () => {
 
@@ -37,15 +35,6 @@ const Header = () => {
 
           
         </div>
-
-        <div className = "header-verify">
-          <div className = "header-verify-title">
-            Blockchain Document Verifier
-          </div>
-          
-          <Verify />
-        </div>
-        
      
    </header>
   );

@@ -1,12 +1,12 @@
 import web3 from './web3';
 //access our local copy to contract deployed on rinkeby testnet
 //use your own contract address
-export const address = "0x9cC9e315b27B17a5B6E01194De3B9a9C12663985";
+export const address = "0xfcE5681bb0930d956c47124aCAd1149811Ce2634";
 
 //use the ABI from your contract
 export const abi = [
 	{
-		"constant": true,
+		"constant": false,
 		"inputs": [
 			{
 				"name": "hash",
@@ -25,7 +25,26 @@ export const abi = [
 			}
 		],
 		"payable": false,
-		"stateMutability": "pure",
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "publicKey",
+				"type": "address"
+			}
+		],
+		"name": "verify",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
