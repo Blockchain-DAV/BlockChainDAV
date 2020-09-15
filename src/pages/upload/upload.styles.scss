@@ -1,13 +1,38 @@
+$color-primary:  rgb(22, 131, 155);
+
 .upload {
     grid-row: 1 / -1;
     grid-column: 2 / 3;
-
-    padding: 0 10rem 0 10rem;
+    margin-top: 5rem;
     /*display: grid;
     grid-template-rows: 50% 50%;
     grid-template-columns: 12.5vw repeat(2, 37.5vw) 12.5vw;*/
+    
+    &-title {
+        font-size: 2.25rem;
+        color: $color-primary;
+        font-weight: 400;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    &-content-0 {
+        font-size: 1.25rem;
+
+        &-link:hover {
+            cursor: pointer;
+            color: $color-primary;
+            text-decoration-line: underline;
+        }
+    }
+
+    &-content-1 {
+        font-size: 1.25rem;
+        margin-top: 5rem;
+        padding: 0 10rem 0 10rem;
+    }
  
-    margin-top: 8rem;
 }
 
 .float {

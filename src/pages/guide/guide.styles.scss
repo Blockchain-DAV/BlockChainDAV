@@ -1,15 +1,15 @@
+$color-primary:  rgb(22, 131, 155);
 .guide {
    grid-row: 1 / -1;
    grid-column: 2 / 3;
    display: flex;
    flex-direction: column;
    align-items: center;
-
-   margin-top: 8rem;
+   margin-top: 5rem;
 
    &-title {
       font-size: 2.25rem;
-      color: #129210c0;
+      color: $color-primary;
       font-weight: 400;
    }
 

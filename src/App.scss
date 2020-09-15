@@ -2,8 +2,9 @@
   overflow: hidden;
   display: grid;
   grid-template-rows: 10vh 90vh repeat(2, 100vh) 30vh;
+  position: relative;
 }
-// $image_url: 'https://i.dlpng.com/static/png/6804527_preview.png';
+
 .App-body {
   grid-row: 2 / 5;
   display: grid;

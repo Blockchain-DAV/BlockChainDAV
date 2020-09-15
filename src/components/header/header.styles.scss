@@ -1,12 +1,13 @@
 $color-primary:#282C2F;
-$image_url: 'https://i.dlpng.com/static/png/6804527_preview.png';
 
 .header {
     grid-row: 1 / 2;
     display: grid;
     grid-template-columns: 12.5vw 75vw 12.5vw;
-    //grid-template-rows: 15% 75%;
     background-color: black;
+    position: fixed;
+    z-index: 1000;
+    height: 10vh;
 
   &-content {
       grid-column: 2 / 3;

@@ -105,14 +105,17 @@ const UploadComponent = ({sendParams}) => {
             const credentials = `MESSAGE: ${message} SIGNATURE: ${signature}`;
 
             let templateParams = {
-                from_name: '', // issuer email
+                from_name: 'jason888maharjan@gmail.com', // issuer email
                 to_name: email, // recepient email
                 subject: 'Credentials for Document verification',
                 message_html: credentials
             }
 
             await emailjs.send (
-                // credentials here
+                'gmail',
+                'template_j247w8DU',
+	            templateParams,
+	            'user_1G9DdQcowYNKgYDuoQgt2'
             );
 
             alert("Credentials sent to recepient!")
@@ -165,6 +168,7 @@ const UploadComponent = ({sendParams}) => {
                         console.log("Encrypted IPFS hash(message) = ", message);
                         
                         // create digital signature
+                        try{
                         web3.eth.sign(message, accounts[0],
                           (err, signature) => {
                             setSignature(signature);
@@ -184,7 +188,12 @@ const UploadComponent = ({sendParams}) => {
                                     openNotification();
                                 }
                             );                           
-                         });                        
+                         });
+                        }
+                         
+                         catch(err){
+                             console.log(err);
+                         }
                     });
                 } catch (error) {
                     console.log(error);
@@ -197,30 +206,48 @@ const UploadComponent = ({sendParams}) => {
     
     return (
         <section className="upload">
-            <h1> UPLOAD AND SIGN DOCUMENTS </h1>
-            <Form form={form} layout="vertical">
-                <Form.Item label="Filename" name="filename" rules={[{ required: true }]}>
-                    <Input placeholder="filename" />
-                </Form.Item>
-                <Form.Item label="Recepient email" name="email" rules={[{ required: true }]}>
-                    <Input placeholder="email" onChange = {handleChange} />
-                </Form.Item>
-                <Form.Item label="Dragger" name="dragger" rules={[{ required: true }]}>
-                    <Upload.Dragger {...props}>
-                        <p className="ant-upload-drag-icon">
-                            <InboxOutlined />
-                        </p>
-                        <p className="ant-upload-text">Click or drag file to this area to upload</p>
-                        <p className="ant-upload-hint">Support for a single or bulk upload.</p>
-                    </Upload.Dragger>
-                </Form.Item>
-            </Form>
-            <Button key="submit" onClick={handleUpload}>
-                Upload and Sign
-            </Button>
-            <Button key="submit" onClick={sendEmail}>
-                Send to recepient
-            </Button>
+            <h1 className = "upload-title"> Getting Started </h1>
+            <div className = "upload-content-0">
+                <p>
+                    The very first thing to do as an issuer is to create and deploy smart contract-which will cost some ether.
+                    Note that this contract is immutable once deployed and will be transparent to all the peers in the network.
+                </p>
+                <p>
+                    Create and deploy your smart contracts
+                    <a href= 'http://remix.ethereum.org/' target = '_blank' rel = 'noopener noreferrer'
+                     className = "upload-content-0-link">&nbsp;here.</a>
+                </p>
+            </div>
+
+            <div className = "upload-content-1">
+                <h1 className = "upload-title"> Upload to IPFS </h1>
+                <Form form={form} layout="vertical">
+                    <Form.Item label="Filename" name="filename" rules={[{ required: true }]}>
+                        <Input placeholder="filename" />
+                    </Form.Item>
+                    <Form.Item label="Recepient email" name="email" rules={[{ required: true }]}>
+                        <Input placeholder="email" onChange = {handleChange} />
+                    </Form.Item>
+                    <Form.Item label="Dragger" name="dragger" rules={[{ required: true }]}>
+                        <Upload.Dragger {...props}>
+                            <p className="ant-upload-drag-icon">
+                                <InboxOutlined />
+                            </p>
+                            <p className="ant-upload-text">Click or drag file to this area to upload</p>
+                            <p className="ant-upload-hint">Support for a single or bulk upload.</p>
+                        </Upload.Dragger>
+                    </Form.Item>
+                </Form>
+                
+                <Button key="submit" onClick={handleUpload}>
+                    Upload and sign
+                </Button>
+                <Button key="submit" onClick={sendEmail}>
+                    Send to recepient
+                </Button>
+
+            </div>
+
 
             <Modal
                 visible={visible}

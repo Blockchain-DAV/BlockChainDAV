@@ -1,6 +1,8 @@
 import React from 'react';
 import './home.styles.scss';
 import {Link} from 'react-router-dom';
+import FileImage from '../../components/images/shield.svg';
+import PeerImage from '../../components/images/peer.png';
 
 
 const Home = () => {
@@ -41,7 +43,7 @@ const Home = () => {
                </div>
             </div>
             <div className = "home-section-1-content-2">
-               .......
+               <img src = {FileImage} className = "home-section-1-content-2-image" alt ="preview not available" />
             </div>
          </section>
 
@@ -59,7 +61,7 @@ const Home = () => {
             </div>
 
             <div className = "home-section-2-content-2">
-               .......
+            <img src = {PeerImage} className = "home-section-2-content-2-image" alt ="preview not available" />
             </div>
          </section>
       </section>

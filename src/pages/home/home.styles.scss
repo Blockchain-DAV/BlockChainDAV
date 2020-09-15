@@ -1,4 +1,5 @@
-$image_url: 'https://i.dlpng.com/static/png/6804527_preview.png';
+$image_url: '../../components/images/header.png';
+$color-primary: rgb(22, 131, 155);
 
 .home {
    grid-row: 1 / -1;
@@ -12,7 +13,8 @@ $image_url: 'https://i.dlpng.com/static/png/6804527_preview.png';
       grid-column: 1 / -1;
       display: grid;
       grid-template-columns: 12.5vw repeat(2, 37.5vw) 12.5vw;
-      background-image: linear-gradient(to right,#000000, #000000bd), url($image_url);
+      background-image: linear-gradient(to right,#000000, #000000d2), url($image_url);
+      background-attachment: fixed;
 
       &-content-0 {
          grid-column: 2 / -2;
@@ -49,7 +51,7 @@ $image_url: 'https://i.dlpng.com/static/png/6804527_preview.png';
             width: 15rem;
             border-radius: 2rem;
             font-size: 1rem;
-            transition: all .2s;
+            transition: all .3s;
             color: white;
             background-color: transparent;
             display: flex;
@@ -60,12 +62,12 @@ $image_url: 'https://i.dlpng.com/static/png/6804527_preview.png';
          &-button-1 {
             @extend %button-style;
             margin-right: 1rem;
-            border: 1px solid green;
+            border: 1px solid $color-primary;
 
             &:hover {
                cursor: pointer;
-               background-color: #129210c4;
-               transform: scale(1.01);
+               background-color: $color-primary;
+               transform: scale(1.05);
             }
 
             &:active {
@@ -85,7 +87,7 @@ $image_url: 'https://i.dlpng.com/static/png/6804527_preview.png';
             &:hover {
                cursor: pointer;
                background-color: rgba(255, 255, 255, 0.226);
-               transform: scale(1.01);
+               transform: scale(1.05);
             }
 
             &:active {
@@ -114,7 +116,7 @@ $image_url: 'https://i.dlpng.com/static/png/6804527_preview.png';
    
          &-title {
             font-size: 2.25rem;
-            color: #129210c0;
+            color: $color-primary;
             font-weight: 400;
          }
    
@@ -129,6 +131,12 @@ $image_url: 'https://i.dlpng.com/static/png/6804527_preview.png';
          display: flex;
          flex-direction: column;
          align-items: center;
+
+         &-image {
+            height: 15rem;
+            width: 15rem;
+            filter: invert(4%) hue-rotate(0deg);
+         }
       }
    }
 
@@ -147,7 +155,7 @@ $image_url: 'https://i.dlpng.com/static/png/6804527_preview.png';
    
          &-title {
             font-size: 2.25rem;
-            color: #129210c0;
+            color: $color-primary;
             font-weight: 400;
          }
    
@@ -158,11 +166,17 @@ $image_url: 'https://i.dlpng.com/static/png/6804527_preview.png';
    
       &-content-2 {
          grid-column: 2 / -1;
-         margin-top: 5rem;
+         //margin-top: 5rem;
          font-size: 1.5rem;
          display: flex;
          flex-direction: column;
          align-items: center;
+
+         &-image {
+            height: 20rem;
+            width: 20rem;
+            
+         }
       }
    }
 }
