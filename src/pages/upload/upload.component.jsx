@@ -8,7 +8,7 @@ import { address, abi } from "../../storehash";
 import web3 from "../../web3";
 import ipfs from "../../ipfs";
 import storehash from "../../storehash";
-
+import{motion} from 'framer-motion'
 export const openNotification = () => {
     notification.open({
         message: "About Transaction Reciept",
@@ -205,99 +205,106 @@ const UploadComponent = ({sendParams}) => {
     };
     
     return (
-        <section className="upload">
-            <h1 className = "upload-title"> Getting Started </h1>
-            <div className = "upload-content-0">
-                <p>
-                    The very first thing to do as an issuer is to create and deploy smart contract-which will cost some ether.
-                    Note that this contract is immutable once deployed and will be transparent to all the peers in the network.
-                </p>
-                <p>
-                    Create and deploy your smart contracts
-                    <a href= 'http://remix.ethereum.org/' target = '_blank' rel = 'noopener noreferrer'
-                     className = "upload-content-0-link">&nbsp;here.</a>
-                </p>
-            </div>
+        <motion.div className='upload' initial={{ opacity:  0 }} animate={{opacity: 1 }} transition={{ opacity: { duration: 0.5 } }} exit={{ opacity: 0 }}>
 
-            <div className = "upload-content-1">
-                <h1 className = "upload-title"> Upload to IPFS </h1>
-                <Form form={form} layout="vertical">
-                    <Form.Item label="Filename" name="filename" rules={[{ required: true }]}>
-                        <Input placeholder="filename" />
-                    </Form.Item>
-                    <Form.Item label="Recepient email" name="email" rules={[{ required: true }]}>
-                        <Input placeholder="email" onChange = {handleChange} />
-                    </Form.Item>
-                    <Form.Item label="Dragger" name="dragger" rules={[{ required: true }]}>
-                        <Upload.Dragger {...props}>
-                            <p className="ant-upload-drag-icon">
-                                <InboxOutlined />
-                            </p>
-                            <p className="ant-upload-text">Click or drag file to this area to upload</p>
-                            <p className="ant-upload-hint">Support for a single or bulk upload.</p>
-                        </Upload.Dragger>
-                    </Form.Item>
-                </Form>
-                
-                <Button key="submit" onClick={handleUpload}>
-                    Upload and sign
-                </Button>
-                <Button key="submit" onClick={sendEmail}>
-                    Send to recepient
-                </Button>
+            <section>
+                <h1 className = "upload-title"> Getting Started </h1>
+                <div className = "upload-content-0">
+                    <p>
+                        The very first thing to do as an issuer is to create and deploy smart contract-which will cost some ether.
+                        Note that this contract is immutable once deployed and will be transparent to all the peers in the network.
+                    </p>
+                    <p>
+                        Create and deploy your smart contracts
+                        <a href= 'http://remix.ethereum.org/' target = '_blank' rel = 'noopener noreferrer'
+                        className = "upload-content-0-link">&nbsp;here.</a>
+                    </p>
+                </div>
 
-            </div>
+                <div className = "upload-content-1">
+                    <h1 className = "upload-title"> Upload to IPFS </h1>
+                    <Form form={form} layout="vertical">
+                        <Form.Item label="Filename" name="filename" rules={[{ required: true }]}>
+                            <Input placeholder="Filename" />
+                        </Form.Item>
+                        <Form.Item 
+                            label="Recepient email" 
+                            name="email" 
+                            rules={[{ required: true }]}
+                            >
+                            <Input placeholder="example@email.com" onChange = {handleChange} />
+                        </Form.Item>
+                        <Form.Item label="Dragger" name="dragger" rules={[{ required: true }]}>
+                            <Upload.Dragger {...props}>
+                                <p className="ant-upload-drag-icon">
+                                    <InboxOutlined />
+                                </p>
+                                <p className="ant-upload-text">Click or drag file to this area to upload</p>
+                                <p className="ant-upload-hint">Support for a single or bulk upload.</p>
+                            </Upload.Dragger>
+                        </Form.Item>
+                    </Form>
+                    
+                    <Button key="submit" onClick={handleUpload}>
+                        Upload and sign
+                    </Button>
+                    <Button key="submit" onClick={sendEmail}>
+                        Send to recepient
+                    </Button>
+
+                </div>
 
 
-            <Modal
-                visible={visible}
-                title="Transaction Receipt"
-                onOk={() => setVisible(false)}
-                onCancel={() => setVisible(false)}
-                footer={[
-                    <Button key="submit" type="primary" onClick={() => setVisible(false)}>
-                        Ok
-                    </Button>,
-                ]}
-            >
-                {transactionReceipt ? (
-                    Object.entries(transactionReceipt)
-                        .filter(entries => entries[0] !== "logs" && entries[0] !== "logsBloom")
-                        .map((entries, i) => {
-                            return (
-                                <div key={i} className="table">
-                                    <div className="key">{entries[0]}</div>
-                                    <div className="value">
-                                        {entries[1] ? entries[1] || "true" : "---"}
+                <Modal
+                    visible={visible}
+                    title="Transaction Receipt"
+                    onOk={() => setVisible(false)}
+                    onCancel={() => setVisible(false)}
+                    footer={[
+                        <Button key="submit" type="primary" onClick={() => setVisible(false)}>
+                            Ok
+                        </Button>,
+                    ]}
+                >
+                    {transactionReceipt ? (
+                        Object.entries(transactionReceipt)
+                            .filter(entries => entries[0] !== "logs" && entries[0] !== "logsBloom")
+                            .map((entries, i) => {
+                                return (
+                                    <div key={i} className="table">
+                                        <div className="key">{entries[0]}</div>
+                                        <div className="value">
+                                            {entries[1] ? entries[1] || "true" : "---"}
+                                        </div>
                                     </div>
-                                </div>
-                            );
-                        })
-                ) : (
-                    <h4>Please wait till the transaction is Confirmed!</h4>
-                )}
-            </Modal>
-            
-            {
-                message ?
-                <div className = "upload-results">
-                    Message: {message}
-                </div>
-                : null
-            }
-            { signature ?
-                <div className = "upload-results">
-                    Digital Signature: {signature}
-                </div>
-                : null
-            }
-            <span
-                className={`float ${isDisabled ? "disable" : ""}`}
-                onClick={isDisabled ? () => {} : () => onTransactionReceiptClick()}
-            >
-                <i className="far fa-file-alt my-float"></i>
-            </span>
-        </section>
+                                );
+                            })
+                    ) : (
+                        <h4>Please wait till the transaction is Confirmed!</h4>
+                    )}
+                </Modal>
+                
+                {
+                    message ?
+                    <div className = "upload-results">
+                        Message: {message}
+                    </div>
+                    : null
+                }
+                { signature ?
+                    <div className = "upload-results">
+                        Digital Signature: {signature}
+                    </div>
+                    : null
+                }
+                <span
+                    className={`float ${isDisabled ? "disable" : ""}`}
+                    onClick={isDisabled ? () => {} : () => onTransactionReceiptClick()}
+                >
+                    <i className="far fa-file-alt my-float"></i>
+                </span>
+            </section>
+        </motion.div>
     );
 };
 

@@ -6,7 +6,7 @@ import Button from '../../components/button/button.component';
 import './verify.styles.scss';
 
 import FormInput from '../../components/form/form.component';
-
+import {motion} from 'framer-motion'
 const Verify = () => {
    const [messageHash, setMessageHash] = useState("");
    const [issuerAddress, setIssuerAddress] = useState("");
@@ -54,49 +54,51 @@ const Verify = () => {
 
    return(   
       <section className = "verify">
-         <form onSubmit = {onSubmit}>
-            <FormInput 
-               name = "message"
-               type = "message"
-               value = {messageHash}
-               handleChange = {handleMessageChange}
-               label = "Message"
-               required
-            />
+         <motion.div initial={{ opacity:  0 }} animate={{opacity: 1 }} transition={{ opacity: { duration: 0.6 } }} exit={{ opacity: 0 }}>
+            <form onSubmit = {onSubmit}>
+               <FormInput 
+                  name = "message"
+                  type = "message"
+                  value = {messageHash}
+                  handleChange = {handleMessageChange}
+                  label = "Message"
+                  required
+               />
 
-            <FormInput 
-               name = "sign"
-               type = "sign"
-               value = {signHash}
-               handleChange = {handleSignChange}
-               label = "Signature"
-               required
-            />
+               <FormInput 
+                  name = "sign"
+                  type = "sign"
+                  value = {signHash}
+                  handleChange = {handleSignChange}
+                  label = "Signature"
+                  required
+               />
 
-            <FormInput 
-               name = "address"
-               type = "address"
-               value = {issuerAddress}
-               handleChange = {handleAddressChange}
-               label = "Issuer's public key"
-               required
-            />
-            <Button title = "Verify Document" type = "submit" onClick = {onSubmit} />
-         </form>
+               <FormInput 
+                  name = "address"
+                  type = "address"
+                  value = {issuerAddress}
+                  handleChange = {handleAddressChange}
+                  label = "Issuer's public key"
+                  required
+               />
+               <Button title = "Verify Document" type = "submit" onClick = {onSubmit} />
+            </form>
 
-         {
-            // VERIFICATION LOGIC HERE
-         }
+            {
+               // VERIFICATION LOGIC HERE
+            }
 
-         {/* { 
-            ipfsHash ?
-            <img className = "verify-ipfs-image" 
-               src = {"https://ipfs.io/ipfs/"+ ipfsHash} 
-               alt = "No preview available" 
-            />
-            :
-            null
-         } */}
+            {/* { 
+               ipfsHash ?
+               <img className = "verify-ipfs-image" 
+                  src = {"https://ipfs.io/ipfs/"+ ipfsHash} 
+                  alt = "No preview available" 
+               />
+               :
+               null
+            } */}
+         </motion.div>
 
       </section>  
    );
