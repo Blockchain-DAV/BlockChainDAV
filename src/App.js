@@ -28,15 +28,15 @@ class App extends React.Component {
         < Header />
         <div className = "App-body">
           <AnimatePresence>
-            <Switch>
-              <Route exact path = "/" component = {Home} />
-              <Route path = "/guide" component = {Guide} />
-              <Route path = "/upload" render = {
-                () => < Upload sendParams = {this.sendParams}/>
-                }
-              />
-              <Route path = "/verify" component = {Verify} />
-            </Switch>
+          <Switch>
+            <Route exact path = "/" component = {Home} />
+            <Route path = "/guide" component = {Guide} />
+            <Route path = "/upload" render = {
+              () => < Upload sendParams = {this.sendParams}/>
+              }
+            />
+             <Route path = "/verify" component = {Verify} />
+          </Switch>
           </AnimatePresence>
         </div>
         < Footer />

@@ -7,7 +7,7 @@ import {motion} from 'framer-motion'
 
 const Home = () => {
    return (
-      <motion.div initial={{ opacity:  0 }} animate={{opacity: 1 }} transition={{ opacity: { duration: 0.2 } }} exit={{ opacity: 0 }}>
+      <motion.div initial={{ opacity:  0 }} animate={{opacity: 1 }} transition={{ opacity: { duration: 0.6 } }} exit={{ opacity: 0 }}>
 
          <section className = "home">
             <section className = "home-section-0">
