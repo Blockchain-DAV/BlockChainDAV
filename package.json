@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^7.2.1",
     "antd": "^4.5.2",
     "emailjs-com": "^2.6.3",
+    "framer-motion": "^2.6.13",
     "ipfs-api": "^26.1.2",
     "node-sass": "^4.14.1",
     "react": "^16.13.1",

@@ -28,7 +28,7 @@ const Header = () => {
             <Link className = "header-nav-link" to = "/verify">
               Verify
             </Link>
-            <a className = "header-nav-link" href = "https://github.com/Blockchain-DAV/BlockChainDAV">
+            <a className = "header-nav-link" target = '_blank' rel = 'noopener noreferrer' href = "https://github.com/Blockchain-DAV/BlockChainDAV">
               Github
             </a>
           </span>

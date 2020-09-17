@@ -3,11 +3,14 @@ import './home.styles.scss';
 import {Link} from 'react-router-dom';
 import FileImage from '../../components/images/shield.svg';
 import PeerImage from '../../components/images/peer.png';
+import {motion} from 'framer-motion';
 
 
 const Home = () => {
    return (
+      <motion.div initial={{ opacity:  0 }} animate={{opacity: 1 }} transition={{ opacity: { duration: 0.6 } }} exit={{ opacity: 0 }}>
       <section className = "home">
+         
          <section className = "home-section-0">
             <div className = "home-section-0-content-0">
                <span className = "home-section-0-content-0-title-0">
@@ -64,7 +67,9 @@ const Home = () => {
             <img src = {PeerImage} className = "home-section-2-content-2-image" alt ="preview not available" />
             </div>
          </section>
+        
       </section>
+      </motion.div>
    );
 }
 

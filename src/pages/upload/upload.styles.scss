@@ -31,6 +31,43 @@ $color-primary:  rgb(22, 131, 155);
         font-size: 1.25rem;
         margin-top: 5rem;
         padding: 0 10rem 0 10rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        &-form {
+            width: 60vw;
+            &-button {
+                width: 20%;
+            }
+        }
+
+        &-sign-perm {
+
+            &-link {
+                text-decoration: underline;
+                cursor: pointer;
+                color: #f6841ad2;
+                &:hover {
+                    color: #f6841a;
+                }
+            }
+        }
+    }
+
+    &-results {
+        margin-top: 1rem;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        font-size: 1rem;
+        width: 75vw;
+
+        &-form {
+            margin-top: 3rem;
+            width: 30vw;
+        }
+
     }
  
 }
@@ -49,6 +86,21 @@ $color-primary:  rgb(22, 131, 155);
     align-items: center;
     box-shadow: 2px 2px 3px #999;
     cursor: pointer;
+}
+.animate {
+    animation: clickMe 1s infinite;
+}
+
+@keyframes clickMe {
+    0% {
+        transform: scale(1.0);
+    }
+    50% {
+        transform: scale(1.20);
+    }
+    100% {
+        transform: scale(1.0);
+    }
 }
 
 .disable{

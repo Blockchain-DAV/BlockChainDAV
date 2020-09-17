@@ -24,6 +24,7 @@ $color-primary:#282C2F;
     &-logo {
       width: 1.5rem;
       height: 1.5rem;
+      animation: rotateMe 4s infinite;
     }
 
     &-bg {
@@ -70,4 +71,12 @@ $color-primary:#282C2F;
   }
 }
 
+@keyframes rotateMe {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
 

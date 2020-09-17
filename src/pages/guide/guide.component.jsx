@@ -1,9 +1,11 @@
 import React from 'react';
 import './guide.styles.scss';
+import {motion} from 'framer-motion';
 
 const Guide = () => {
    return(
       <section className = "guide">
+         <motion.div initial={{ opacity:  0 }} animate={{opacity: 1 }} transition={{ opacity: { duration: 0.6 } }} exit={{ opacity: 0 }}>
          <h1 className = "guide-title">About BlockDVS </h1>
             <div className = "guide-intro">
                <p>
@@ -23,7 +25,7 @@ const Guide = () => {
             </div>
          
             <h1 className = "guide-title">Here's how it works </h1>
-         
+         </motion.div>
       </section>
    );
 }

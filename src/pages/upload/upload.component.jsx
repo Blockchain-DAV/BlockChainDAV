@@ -4,10 +4,11 @@ import { Form, Input, Upload, Modal, Button, notification } from "antd";
 import emailjs from 'emailjs-com'
 
 import { InboxOutlined, SmileOutlined } from "@ant-design/icons";
-import { address, abi } from "../../storehash";
 import web3 from "../../web3";
 import ipfs from "../../ipfs";
 import storehash from "../../storehash";
+import {motion} from 'framer-motion';
+import {address} from "../../storehash";
 
 export const openNotification = () => {
     notification.open({
@@ -27,7 +28,6 @@ const UploadComponent = ({sendParams}) => {
     //state for ipfs and smart contract
     const [buffer, setBuffer] = useState("");
     const [metamaskAccount, setMetamaskAccount] = useState(null);
-    const [smartContract, setSmartContract] = useState(null);
 
     const [ipfsHash, setIpfsHash] = useState(null);
     const [transactionHash, setTransactionHash] = useState(null);
@@ -85,8 +85,14 @@ const UploadComponent = ({sendParams}) => {
                 setVisible(true);
                 if (txReceipt !== null) {
                     setIsDisabled(false);
-                    setTransactionReceipt(txReceipt);
+
+                    // Add contractAddress, message and signature to txReceipt
+                    txReceipt.contractAddress = address;
+                    txReceipt.message = message;
+                    txReceipt.signature = signature;
                     console.log("TxReceipt = ", txReceipt);
+
+                    setTransactionReceipt(txReceipt);
                     sendParams(txReceipt);
                 }
             });
@@ -100,28 +106,38 @@ const UploadComponent = ({sendParams}) => {
     }
 
     const sendEmail = async() => {
-        if (message || signature) {
-            // Send Tx receipt OR message + signature to recepient email
-            const credentials = `MESSAGE: ${message} SIGNATURE: ${signature}`;
-
-            let templateParams = {
-                from_name: 'jason888maharjan@gmail.com', // issuer email
-                to_name: email, // recepient email
-                subject: 'Credentials for Document verification',
-                message_html: credentials
+        if (email){
+            if (transactionReceipt) {
+                // Send Tx receipt with message + signature to recepient email
+                const credentials = `BLOCK_HASH:${transactionReceipt.blockHash}----------
+                                    BLOCK_NUMBER:${transactionReceipt.blockNumber}----------
+                                    TX_HASH:${transactionReceipt.transactionHash}----------
+                                    MESSAGE:${message}----------
+                                    SIGNATURE:${signature}`;
+    
+                let templateParams = {
+                    from_name: 'jason888maharjan@gmail.com', // issuer email
+                    to_name: email, // recepient email
+                    subject: 'Credentials for Document verification',
+                    message_html: credentials
+                }
+    
+                await emailjs.send (
+                    'gmail',
+                    'template_j247w8DU',
+                    templateParams,
+                    'user_1G9DdQcowYNKgYDuoQgt2'
+                );
+    
+                alert("Credentials sent to recepient!")
             }
-
-            await emailjs.send (
-                'gmail',
-                'template_j247w8DU',
-	            templateParams,
-	            'user_1G9DdQcowYNKgYDuoQgt2'
-            );
-
-            alert("Credentials sent to recepient!")
+            else {
+                alert("Please wait until the transaction is completed!")
+            }
         }
+        
         else {
-            alert("Please Upload and Sign first!")
+            alert("Please Fill in the recepient email!");
         } 
     }
        
@@ -150,62 +166,59 @@ const UploadComponent = ({sendParams}) => {
                 const accounts = await web3.eth.getAccounts();
                 setMetamaskAccount(accounts[0]);
 
-                // smart contract
-                const smartContract = new web3.eth.Contract(abi, address);
-                setSmartContract(smartContract);
-
                 // ipfs implementation
                 // save document to IPFS, return its hash, and set hash to state
-                try {
-                    await ipfs.add(_buffer, (err, ipfsHash) => {
+                await ipfs.add(_buffer, (err, ipfsHash) => {
                         setIpfsHash(ipfsHash[0].hash);
                         console.log("IPFS hash = ", ipfsHash[0].hash);
                         alert('File uploaded to IPFS!');
-
-                        // create message by encrypting the IPFS hash using SHA3
-                        const message = web3.utils.sha3(ipfsHash[0].hash); 
-                        setMessage(message);
-                        console.log("Encrypted IPFS hash(message) = ", message);
-                        
-                        // create digital signature
-                        try{
-                        web3.eth.sign(message, accounts[0],
-                          (err, signature) => {
-                            setSignature(signature);
-                            console.log("signature = ", signature);   
-                            
-                            // call Ethereum method-sendHash to send Ipfs hash to ethereum contract
-                            // return transaction hash from ethereum
-                            // send hash to recepient email
-                            storehash.methods.sendHash(ipfsHash[0].hash).send(
-                                {
-                                    from: accounts[0],
-                                },
-                                (error, transactionHash) => {
-                                    setTransactionHash(transactionHash);
-                                    console.log("TxHash = ", transactionHash);
-                                    setIsDisabled(false);
-                                    openNotification();
-                                }
-                            );                           
-                         });
-                        }
-                         
-                         catch(err){
-                             console.log(err);
-                         }
-                    });
-                } catch (error) {
-                    console.log(error);
-                }
+                });
             }
+
         } catch (error) {
             console.log(error);
         }
     };
+
+    const signHash  = () => {
+        // create message by encrypting the IPFS hash using SHA3
+        const message = web3.utils.sha3(ipfsHash); 
+        setMessage(message);
+        console.log("Encrypted IPFS hash(message) = ", message);
+        
+        // create digital signature
+        try {
+            web3.eth.sign(message, metamaskAccount,
+            (err, signature) => {
+                setSignature(signature);
+                console.log("signature = ", signature);
+                
+                // call Ethereum method-sendHash to send Ipfs hash to ethereum contract
+                // return transaction hash from ethereum
+                // send hash to recepient email
+                storehash.methods.sendHash(ipfsHash).send(
+                    {
+                        from: metamaskAccount,
+                    },
+                    (error, transactionHash) => {
+                        setTransactionHash(transactionHash);
+                        console.log("TxHash = ", transactionHash);
+                        setIsDisabled(false);
+                        openNotification();
+                    }
+                );                           
+            });
+        }        
+        catch(err){
+            console.log(err);
+            alert("Please log into your Metamask Account!");
+        }
+        
+    }
     
     return (
         <section className="upload">
+            <motion.div initial={{ opacity:  0 }} animate={{opacity: 1 }} transition={{ opacity: { duration: 0.6 } }} exit={{ opacity: 0 }}>
             <h1 className = "upload-title"> Getting Started </h1>
             <div className = "upload-content-0">
                 <p>
@@ -218,36 +231,62 @@ const UploadComponent = ({sendParams}) => {
                      className = "upload-content-0-link">&nbsp;here.</a>
                 </p>
             </div>
-
             <div className = "upload-content-1">
-                <h1 className = "upload-title"> Upload to IPFS </h1>
-                <Form form={form} layout="vertical">
-                    <Form.Item label="Filename" name="filename" rules={[{ required: true }]}>
-                        <Input placeholder="filename" />
-                    </Form.Item>
-                    <Form.Item label="Recepient email" name="email" rules={[{ required: true }]}>
-                        <Input placeholder="email" onChange = {handleChange} />
-                    </Form.Item>
-                    <Form.Item label="Dragger" name="dragger" rules={[{ required: true }]}>
-                        <Upload.Dragger {...props}>
-                            <p className="ant-upload-drag-icon">
-                                <InboxOutlined />
-                            </p>
-                            <p className="ant-upload-text">Click or drag file to this area to upload</p>
-                            <p className="ant-upload-hint">Support for a single or bulk upload.</p>
-                        </Upload.Dragger>
-                    </Form.Item>
-                </Form>
-                
-                <Button key="submit" onClick={handleUpload}>
-                    Upload and sign
-                </Button>
-                <Button key="submit" onClick={sendEmail}>
-                    Send to recepient
-                </Button>
 
+                {
+                    !ipfsHash && !signature ?
+                    <div className = "upload-content-1-form">
+                        <h1 className = "upload-title"> Upload to IPFS </h1>
+                        <Form form={form} layout="vertical" >
+                            <Form.Item label="Dragger" name="dragger" rules={[{ required: true }]}>
+                                <Upload.Dragger {...props}>
+                                    <p className="ant-upload-drag-icon">
+                                        <InboxOutlined />
+                                    </p>
+                                    <p className="ant-upload-text">Click or drag file to this area to upload</p>
+                                    <p className="ant-upload-hint">Support for a single or bulk upload.</p>
+                                </Upload.Dragger>
+                            </Form.Item>
+                            <Button key="submit" onClick={handleUpload} className = "upload-content-1-form-button">
+                                Upload 
+                            </Button>
+                        </Form>
+                    </div>
+                    : ipfsHash && !signature ?
+                    <div className = "upload-content-1-sign-perm">
+                        <h1 className = "upload-title"> Create Digital Signature </h1>
+                        IPFS Hash: {ipfsHash}
+                        <br></br>
+                        Sign this hash with your&nbsp;
+                        <span className = "upload-content-1-sign-perm-link" onClick = {signHash}>
+                            Metamask Account
+                        </span>
+                    </div>
+                    :null
+                }  
+
+                {
+                    signature ?
+                    <div className = "upload-results">
+                        <h1 className = "upload-title"> Send Credentials to Recepient </h1>
+                        <strong>Message:</strong> {message}
+                        <br></br><br></br>
+                        <strong>Digital Signature:</strong> {signature}
+                        <div className = "upload-results-form">
+                            <Form form={form} layout="vertical" >
+                                <Form.Item label="Recepient mail" name="mail" rules={[{ required: true }]}>
+                                    <Input placeholder="email" onChange = {handleChange}/>
+                                </Form.Item>
+                                <Button key="submit" onClick={sendEmail}>
+                                    Send to recepient
+                                </Button>
+                            </Form>
+                        </div>
+                    </div>
+                    
+                : null              
+                }
             </div>
-
 
             <Modal
                 visible={visible}
@@ -278,25 +317,13 @@ const UploadComponent = ({sendParams}) => {
                 )}
             </Modal>
             
-            {
-                message ?
-                <div className = "upload-results">
-                    Message: {message}
-                </div>
-                : null
-            }
-            { signature ?
-                <div className = "upload-results">
-                    Digital Signature: {signature}
-                </div>
-                : null
-            }
             <span
-                className={`float ${isDisabled ? "disable" : ""}`}
+                className={`float ${isDisabled ? "disable" : "animate"}`}
                 onClick={isDisabled ? () => {} : () => onTransactionReceiptClick()}
             >
                 <i className="far fa-file-alt my-float"></i>
             </span>
+            </motion.div>
         </section>
     );
 };
