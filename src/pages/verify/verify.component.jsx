@@ -103,12 +103,12 @@ const Verify = () => {
             {
                from: accounts[0],
             }, (error,transactionHash) => {
-               console.log(error, transactionHash);
+               console.log(transactionHash);
             }
          );
 
       //const a = await storehash_verifier.methods.getAddress().call();
-/*
+      /*
         const message = web3.utils.sha3("Valid"); 
         console.log("Encrypted IPFS hash(message) = ", message);
         
@@ -140,8 +140,8 @@ const Verify = () => {
                </div>
                <div className = "verify-form-div">
                   <Form form={form} layout="vertical" className = "verify-form-0">
-                     <Form.Item label="Contract Address" name="con_address" rules={[{ required: true }]}>
-                        <Input placeholder="Enter Contract Address" onChange = {handleConAddressChange} />
+                     <Form.Item label="Smart Contract Address" name="con_address" rules={[{ required: true }]}>
+                        <Input placeholder="Enter Smart Contract Address" onChange = {handleConAddressChange} />
                      </Form.Item>
                   </Form>
                   <Button className = "verify-ipfs-button" onClick = {onAddressSubmit}>

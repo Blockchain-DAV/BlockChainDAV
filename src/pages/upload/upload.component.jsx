@@ -39,6 +39,7 @@ const UploadComponent = ({sendParams}) => {
     //loading states
     const [transactionReceipt, setTransactionReceipt] = useState(null);
     const [isDisabled, setIsDisabled] = useState(true);
+    
 
     //modal states
     const [visible, setVisible] = useState(false);
@@ -318,7 +319,7 @@ const UploadComponent = ({sendParams}) => {
             </Modal>
             
             <span
-                className={`float ${isDisabled ? "disable" : "animate"}`}
+                className={`float ${transactionHash ? "animate": "disable"}`}
                 onClick={isDisabled ? () => {} : () => onTransactionReceiptClick()}
             >
                 <i className="far fa-file-alt my-float"></i>
