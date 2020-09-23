@@ -1,7 +1,7 @@
 .App {
   overflow: hidden;
   display: grid;
-  grid-template-rows: 10vh 90vh repeat(2, 100vh) 30vh;
+  grid-template-rows: 10vh 90vh repeat(2, 75vh) 20vh;
   position: relative;
 }
 
@@ -9,7 +9,7 @@
   grid-row: 2 / 5;
   display: grid;
   grid-template-columns: 12.5vw 75vw 12.5vw;
-  grid-template-rows: 90vh repeat(2, 100vh);
+  grid-template-rows: 90vh 75vh 75vh;
   background-color: white;
 }
 

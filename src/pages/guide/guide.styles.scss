@@ -2,19 +2,35 @@ $color-primary:  rgb(22, 131, 155);
 .guide {
    grid-row: 1 / -1;
    grid-column: 2 / 3;
-   display: flex;
-   flex-direction: column;
-   align-items: center;
-   margin-top: 5rem;
+
+   margin-top: 8rem;
+
+   &-p {
+      text-align: justify;
+   }
 
    &-title {
       font-size: 2.25rem;
       color: $color-primary;
       font-weight: 400;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
    }
 
    &-intro {
       font-size: 1.25rem;
-      margin-bottom: 3rem;
+      margin-bottom: 8rem;
+      padding: 2rem 0;
+      border-bottom: 1px solid rgb(224, 228, 221);
+   }
+
+   &-diagram {
+      font-size: 1.25rem;
+      padding: 2rem 0;
+
+      &-image {
+         width: 100%;
+      }
    }
 }

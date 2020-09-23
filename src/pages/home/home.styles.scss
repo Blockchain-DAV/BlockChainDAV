@@ -5,7 +5,7 @@ $color-primary: rgb(22, 131, 155);
    grid-row: 1 / -1;
    grid-column: 1 / -1;
    display: grid;
-   grid-template-rows: 90vh repeat(2, 100vh);
+   grid-template-rows: 90vh repeat(2, 75vh);
    grid-template-columns: 12.5vw repeat(2, 37.5vw) 12.5vw;
 
    &-section-0 {
@@ -133,8 +133,8 @@ $color-primary: rgb(22, 131, 155);
          align-items: center;
 
          &-image {
-            height: 15rem;
-            width: 15rem;
+            height: 10rem;
+            width: 10rem;
             filter: invert(4%) hue-rotate(0deg);
          }
       }
@@ -173,8 +173,8 @@ $color-primary: rgb(22, 131, 155);
          align-items: center;
 
          &-image {
-            height: 20rem;
-            width: 20rem;
+            height: 15rem;
+            width: 15rem;
             
          }
       }

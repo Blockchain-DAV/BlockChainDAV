@@ -133,10 +133,22 @@ const Verify = () => {
          <section className = "verify">
             <motion.div initial={{ opacity:  0 }} animate={{opacity: 1 }} transition={{ opacity: { duration: 0.6 } }} exit={{ opacity: 0 }}>
                <h1 className = "verify-title"> Verify Documents </h1>
-               <div className = "verify-view">
+               <div className = "verify-desc">
                   <p>
-                     View and verify the document hosted by IPFS by providing the address of smart contract deployed by the issuer.
+                     BlockDVS allows two verification processes. After you view the file hosted
+                     by IPFS, you can either verify a document by entering the message and signature along
+                     with the issuer's public key. Alternatively, you can verify the document by entering Tx Hash or Block Number 
+                     on Rinkey Testnet Explorer.
                   </p>
+               </div>
+
+               <div className = "verify-view">
+                  <h1 className = "verify-title">Verify through Digital Signature </h1>
+                     <center>
+                        <p className = "verify-view-p">
+                        First, enter the contract address to view the document hosted by IPFS.
+                        </p>
+                     </center>
                </div>
                <div className = "verify-form-div">
                   <Form form={form} layout="vertical" className = "verify-form-0">
@@ -158,7 +170,8 @@ const Verify = () => {
                   </Button>
                </div>
 
-               <div className = "verify-form-div">
+               <div className = "verify-form-div-2">
+
                   <Form form={form} layout="vertical" className = "verify-form">
                      <Form.Item label="Message" name="message" rules={[{ required: true }]}>
                         <Input placeholder="Enter message" onChange = {handleMessageChange} />
@@ -195,6 +208,17 @@ const Verify = () => {
                      }
                   </div>
                </div>   
+
+               <div className = "verify_altr">
+                  <h1 className = "verify-title"> Alternative Verification </h1>
+                  <p>
+                     Alternatively, you can verify the issuer's address by searching for the 
+                     transaction hash or block number on the Rinkey TestNet Explorer.
+                     <a className = "upload-content-0-link" href = "https://www.rinkeby.io/#explorer" target = "_blank" rel="noopener noreferrer">
+                     &nbsp; Click here.   
+                     </a>
+                  </p>
+               </div>
             </motion.div>
          </section>  
    );

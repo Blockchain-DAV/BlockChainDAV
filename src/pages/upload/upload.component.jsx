@@ -110,7 +110,8 @@ const UploadComponent = ({sendParams}) => {
         if (email){
             if (transactionReceipt) {
                 // Send Tx receipt with message + signature to recepient email
-                const credentials = `BLOCK_HASH:${transactionReceipt.blockHash}----------
+                const credentials = `CONTRACT_ADDRESS: ${transactionReceipt.address}----------
+                                    BLOCK_HASH:${transactionReceipt.blockHash}----------
                                     BLOCK_NUMBER:${transactionReceipt.blockNumber}----------
                                     TX_HASH:${transactionReceipt.transactionHash}----------
                                     MESSAGE:${message}----------
@@ -222,9 +223,9 @@ const UploadComponent = ({sendParams}) => {
             <motion.div initial={{ opacity:  0 }} animate={{opacity: 1 }} transition={{ opacity: { duration: 0.6 } }} exit={{ opacity: 0 }}>
             <h1 className = "upload-title"> Getting Started </h1>
             <div className = "upload-content-0">
-                <p>
+                <p className = "upload-p">
                     The very first thing to do as an issuer is to create and deploy smart contract-which will cost some ether.
-                    Note that this contract is immutable once deployed and will be transparent to all the peers in the network.
+                    Note that this contract is immutable once deployed and will be transparent to all the peers in the network who have the contract address.
                 </p>
                 <p>
                     Create and deploy your smart contracts
@@ -234,8 +235,6 @@ const UploadComponent = ({sendParams}) => {
             </div>
             <div className = "upload-content-1">
 
-                {
-                    !ipfsHash && !signature ?
                     <div className = "upload-content-1-form">
                         <h1 className = "upload-title"> Upload to IPFS </h1>
                         <Form form={form} layout="vertical" >
@@ -253,35 +252,39 @@ const UploadComponent = ({sendParams}) => {
                             </Button>
                         </Form>
                     </div>
-                    : ipfsHash && !signature ?
+
+                    { ipfsHash ?
                     <div className = "upload-content-1-sign-perm">
                         <h1 className = "upload-title"> Create Digital Signature </h1>
-                        IPFS Hash: {ipfsHash}
-                        <br></br>
-                        Sign this hash with your&nbsp;
-                        <span className = "upload-content-1-sign-perm-link" onClick = {signHash}>
-                            Metamask Account
-                        </span>
+                        <div className = "upload-title-content">
+                            IPFS Hash: {ipfsHash}
+                            <br></br>
+                            Sign this hash with your&nbsp;
+                            <span className = "upload-content-1-sign-perm-link" onClick = {signHash}>
+                                Metamask Account
+                            </span>
+                        </div>
                     </div>
                     :null
                 }  
-
                 {
                     signature ?
                     <div className = "upload-results">
                         <h1 className = "upload-title"> Send Credentials to Recepient </h1>
-                        <strong>Message:</strong> {message}
-                        <br></br><br></br>
-                        <strong>Digital Signature:</strong> {signature}
-                        <div className = "upload-results-form">
-                            <Form form={form} layout="vertical" >
-                                <Form.Item label="Recepient mail" name="mail" rules={[{ required: true }]}>
-                                    <Input placeholder="email" onChange = {handleChange}/>
-                                </Form.Item>
-                                <Button key="submit" onClick={sendEmail}>
-                                    Send to recepient
-                                </Button>
-                            </Form>
+                        <div className = "upload-title-content">
+                            <strong>Message:</strong> {message}
+                            <br></br><br></br>
+                            <strong>Digital Signature:</strong> {signature}
+                            <div className = "upload-results-form">
+                                <Form form={form} layout="vertical" >
+                                    <Form.Item label="Recepient mail" name="mail" rules={[{ required: true }]}>
+                                        <Input placeholder="email" onChange = {handleChange}/>
+                                    </Form.Item>
+                                    <Button key="submit" onClick={sendEmail}>
+                                        Send to recepient
+                                    </Button>
+                                </Form>
+                            </div>
                         </div>
                     </div>
                     

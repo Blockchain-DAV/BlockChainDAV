@@ -1,14 +1,33 @@
 $color-primary: rgb(22, 131, 155);
+//border-bottom: 1px solid rgb(224, 228, 221);
 
 .verify {
-   grid-column: 1 / -1;
-   margin-top: 5rem;
+   grid-column: 2 / -2;
+   margin-top: 8rem;
    display: flex;
    flex-direction: column;
    align-items: center;
 
-   &-view {
+   &_altr {
+      margin-top: 5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       font-size: 1.25rem;
+   }
+
+   &-desc {
+      font-size: 1.25rem;
+      padding-top: 2rem;
+   }
+
+   &-view {
+      margin-top: 5rem;
+      font-size: 1.25rem;
+
+      &-p {
+         padding-top: 2rem;
+      }
    }
 
    &-ipfs-button {
@@ -54,9 +73,19 @@ $color-primary: rgb(22, 131, 155);
       display: flex;
       flex-direction: column;
       align-items: center;
+      margin: 5rem 0;
+   }
+
+   &-form-div-2 {
+      margin-top: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border-bottom: 1px solid rgb(224, 228, 221);
    }
 
    &-form {
+      margin-top: 8rem;
       width: 50vw;
 
       &-button {
