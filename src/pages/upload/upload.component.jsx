@@ -26,7 +26,6 @@ const UploadComponent = ({sendParams}) => {
     const [email, setEmail] = useState('');
 
     //state for ipfs and smart contract
-    const [buffer, setBuffer] = useState("");
     const [metamaskAccount, setMetamaskAccount] = useState(null);
 
     const [ipfsHash, setIpfsHash] = useState(null);
@@ -70,7 +69,6 @@ const UploadComponent = ({sendParams}) => {
         //file is converted to a buffer to prepare for uploading to IPFS
         const buffer = await Buffer.from(reader.result);
         //set this buffer -using es6 syntax
-        setBuffer(buffer);
         return buffer;
     };
 
@@ -110,7 +108,8 @@ const UploadComponent = ({sendParams}) => {
         if (email){
             if (transactionReceipt) {
                 // Send Tx receipt with message + signature to recepient email
-                const credentials = `CONTRACT_ADDRESS: ${transactionReceipt.address}----------
+                const credentials = `PUBLIC_KEY: ${metamaskAccount}----------
+                                    CONTRACT_ADDRESS: ${transactionReceipt.contractAddress}----------
                                     BLOCK_HASH:${transactionReceipt.blockHash}----------
                                     BLOCK_NUMBER:${transactionReceipt.blockNumber}----------
                                     TX_HASH:${transactionReceipt.transactionHash}----------

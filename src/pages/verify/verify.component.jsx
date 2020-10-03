@@ -64,7 +64,6 @@ const Verify = () => {
          try{
             const storehash = new web3.eth.Contract(abi, contractAddress);
             const result = await storehash.methods.recover(messageHash, signHash).call();
-            setResult(result);
    
             if (result === issuerAddress) {
    
@@ -107,23 +106,6 @@ const Verify = () => {
             }
          );
 
-      //const a = await storehash_verifier.methods.getAddress().call();
-      /*
-        const message = web3.utils.sha3("Valid"); 
-        console.log("Encrypted IPFS hash(message) = ", message);
-        
-        // create digital signature of verifier
-        try {
-            web3.eth.sign(message, accounts[0],
-            (err, signature) => {
-                console.log("signature = ", signature);                           
-               });
-         }        
-         catch(err){
-               console.log(err);
-               alert("Please log into your Metamask Account!");
-         }
-        */
       } catch(error) {
          console.log(error);
       }
