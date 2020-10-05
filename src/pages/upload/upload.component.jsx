@@ -1,20 +1,18 @@
 import React, { useState } from "react";
 import "./upload.styles.scss";
-import { Form, Input, Upload, Modal, Button, notification } from "antd";
+import { Form, Input, Upload, Modal, Button, notification, Spin } from "antd";
 import emailjs from 'emailjs-com'
 
-import { InboxOutlined, SmileOutlined } from "@ant-design/icons";
+import { InboxOutlined } from "@ant-design/icons";
 import web3 from "../../web3";
 import ipfs from "../../ipfs";
 import storehash from "../../storehash";
 import {motion} from 'framer-motion';
 import {address} from "../../storehash";
 
-export const openNotification = () => {
-    notification.open({
-        message: "About Transaction Reciept",
-        description: "You will be receiving transaction receipt shortly!",
-        icon: <SmileOutlined style={{ color: "#108ee9" }} />,
+export const openNotification = (message) => {
+    notification.info({
+        message,
     });
 };
 
@@ -42,6 +40,7 @@ const UploadComponent = ({sendParams}) => {
 
     //modal states
     const [visible, setVisible] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const props = {
         onRemove: file => {
@@ -130,19 +129,20 @@ const UploadComponent = ({sendParams}) => {
                     'user_1G9DdQcowYNKgYDuoQgt2'
                 );
     
-                alert("Credentials sent to recepient!")
+                openNotification("Credentials sent to recepient!")
             }
             else {
-                alert("Please wait until the transaction is completed!")
+                openNotification("Please wait until the transaction is completed!")
             }
         }
         
         else {
-            alert("Please Fill in the recepient email!");
+            openNotification("Please Fill in the recepient email!");
         } 
     }
        
     const handleUpload = async (e) => {
+        setLoading(true);
         try {
             const isFileAvailable = fileList.length === 1;
             if (!isFileAvailable) {
@@ -170,10 +170,13 @@ const UploadComponent = ({sendParams}) => {
                 // ipfs implementation
                 // save document to IPFS, return its hash, and set hash to state
                 await ipfs.add(_buffer, (err, ipfsHash) => {
-                        setIpfsHash(ipfsHash[0].hash);
-                        console.log("IPFS hash = ", ipfsHash[0].hash);
-                        alert('File uploaded to IPFS!');
+                    setIpfsHash(ipfsHash[0].hash);
+                    console.log("IPFS hash = ", ipfsHash[0].hash);
+                    openNotification('File uploaded to IPFS!');
+                    setLoading(false);
                 });
+
+                
             }
 
         } catch (error) {
@@ -205,14 +208,14 @@ const UploadComponent = ({sendParams}) => {
                         setTransactionHash(transactionHash);
                         console.log("TxHash = ", transactionHash);
                         setIsDisabled(false);
-                        openNotification();
+                        openNotification("You will be receiving transaction receipt shortly");
                     }
                 );                           
             });
         }        
         catch(err){
             console.log(err);
-            alert("Please log into your Metamask Account!");
+            openNotification("Please log into your Metamask Account!");
         }
         
     }
@@ -246,8 +249,13 @@ const UploadComponent = ({sendParams}) => {
                                     <p className="ant-upload-hint">Support for a single or bulk upload.</p>
                                 </Upload.Dragger>
                             </Form.Item>
-                            <Button key="submit" onClick={handleUpload} className = "upload-content-1-form-button">
-                                Upload 
+                
+                            <Button disabled = {fileList.length ? false : true} key="submit" onClick={handleUpload} className = "upload-content-1-form-button">
+                                {
+                                    loading ? <Spin />
+                                    :
+                                    "Upload"
+                                }
                             </Button>
                         </Form>
                     </div>

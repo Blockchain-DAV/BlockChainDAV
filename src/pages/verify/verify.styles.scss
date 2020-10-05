@@ -30,15 +30,22 @@ $color-primary: rgb(22, 131, 155);
       }
    }
 
+   &-ipfs-a {
+      border: 1px solid $color-primary;
+      padding: 0.2rem 1.3rem;
+   }
+
    &-ipfs-button {
-      height: 2rem;
-      width: 10rem;
+      padding: 0.2rem 1.3rem;
       margin: 1rem 0 1rem 0;
       background-color: $color-primary;
       color: white;
       border: none;
       border: 1px solid $color-primary;
       transform: all .3s;
+      display: flex;
+      justify-content: center;
+      align-items: center;
 
       &:hover {
          cursor: pointer;
@@ -73,7 +80,7 @@ $color-primary: rgb(22, 131, 155);
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin: 5rem 0;
+      margin: 2rem 0;
    }
 
    &-form-div-2 {
@@ -99,21 +106,21 @@ $color-primary: rgb(22, 131, 155);
       font-size: 1.25rem;
       font-weight: 100;
       color: black;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-
+      
       &-valid {
          color: green;
+         display: flex;
+         flex-direction: column;
+         align-items: center;
       }
 
       &-invalid {
          color: red;
+         padding-bottom: 2rem;
       }
 
       &-contract {
-         margin-top: 1rem;
-         margin-left: 1rem;
+         margin: 1rem;
       }
    }
 }

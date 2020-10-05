@@ -6,8 +6,16 @@ import {abi} from '../../storehash';
 import storehash_verifier from '../../storehash_verifier';
 
 import './verify.styles.scss';
-import { Form, Input, Button} from "antd";
+import { Form, Input, notification} from "antd";
 import {motion} from 'framer-motion';
+
+const openNotification = (message) => {
+   notification.info({
+       message, 
+       //description: "You will be receiving transaction receipt shortly!",
+   });
+};
+
 
 const Verify = () => {
    const [form] = Form.useForm();
@@ -18,6 +26,26 @@ const Verify = () => {
    const [result, setResult] = useState("");
    const [ipfsHash, setIpfsHash] = useState("");
    const [valid, setValid] = useState("");
+   const [metaMaskAddress, setMetaMaskAddress] = useState(null);
+
+   React.useEffect(() => {
+      async function getAddress() {
+         const accounts = await web3.eth.getAccounts();
+         setMetaMaskAddress(accounts[0]);
+      }   
+      getAddress();
+   },[]);
+
+   // ContractAddress needed, then call the contract's getHash method 
+   React.useEffect(() => {
+      async function onAddressSubmit() {
+            const storehash = new web3.eth.Contract(abi, contractAddress);
+            const ipfs = await storehash.methods.getHash().call();
+            setIpfsHash(ipfs);
+            console.log(ipfs);
+      }
+      if (contractAddress) onAddressSubmit();
+   },[contractAddress]);   
 
    const handleConAddressChange = event => {
       const {value} = event.target;
@@ -39,28 +67,16 @@ const Verify = () => {
       setIssuerAddress(value);
    }
 
-   // ContractAddress needed, then call the contract's getHash method 
-   const onAddressSubmit = async() => {
-      if (contractAddress) {
-         const storehash = new web3.eth.Contract(abi, contractAddress);
-         const ipfs = await storehash.methods.getHash().call();
-         setIpfsHash(ipfs);
-         console.log(ipfsHash);
-      }
-      else {
-         alert("Please fill out the contract address");
-      }
-      
-   }
-   
    // Recover the issuer's ethereum address + Verify document
    const onSubmit = async(event) => {
       event.preventDefault();
       if (!contractAddress){
-         alert("Please view the document first!");
+         openNotification("Please view the document first!");
       }
       else{
-         if (!messageHash || !signHash || !issuerAddress) alert("Please fill in all the fields");
+         if (!messageHash || !signHash || !issuerAddress){
+            openNotification("Please fill in all the fields");
+         } 
          try{
             const storehash = new web3.eth.Contract(abi, contractAddress);
             const result = await storehash.methods.recover(messageHash, signHash).call();
@@ -120,7 +136,16 @@ const Verify = () => {
                      BlockDVS allows two verification processes. After you view the file hosted
                      by IPFS, you can either verify a document by entering the message and signature along
                      with the issuer's public key. Alternatively, you can verify the document by entering Tx Hash or Block Number 
-                     on Rinkey Testnet Explorer.
+                     on Rinkey Testnet Explorer. You can view your entire transaction history
+                     <a className = "upload-content-0-link" href = {`https://rinkeby.etherscan.io/address/${metaMaskAddress}`} target = "_blank" rel="noopener noreferrer">
+                     &nbsp;here.   
+                     </a>
+                  </p>
+               </div>
+
+               <div className = "verify_altr">
+                  <p>
+                     
                   </p>
                </div>
 
@@ -138,18 +163,15 @@ const Verify = () => {
                         <Input placeholder="Enter Smart Contract Address" onChange = {handleConAddressChange} />
                      </Form.Item>
                   </Form>
-                  <Button className = "verify-ipfs-button" onClick = {onAddressSubmit}>
-                     {
-                        ipfsHash ? 
-                           <a href = {"https://ipfs.io/ipfs/"+ipfsHash} 
-                              target = "_blank" rel="noopener noreferrer" className = "verify-ipfs-button-link">
-                              View Document
-                           </a>
-                        :<button className = "temp_button">
-                           View Document
-                        </button>
-                     }   
-                  </Button>
+                  {
+                     ipfsHash ? 
+                     <a href = {`https://ipfs.io/ipfs/${ipfsHash}`} target = "_blank" 
+                     rel="noopener noreferrer"
+                     className = "verify-ipfs-a">
+                     View Document
+                     </a>:null
+                  }
+                  
                </div>
 
                <div className = "verify-form-div-2">
@@ -176,7 +198,7 @@ const Verify = () => {
                            <div className = "verify-result-valid-div">
                               <span className = "verify-result-valid">This Document is Valid.</span>
                               <br></br>
-                              <button className = "verify-result-contract" onClick = {sendTX}>
+                              <button className = "verify-ipfs-button" onClick = {sendTX}>
                                  Save Transaction
                               </button>
                            </div>
