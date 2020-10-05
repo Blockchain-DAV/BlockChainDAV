@@ -1,6 +1,10 @@
 import React from 'react';
 import './button.styles.scss';
 
+/**
+ * @param title: string
+ * @param onClick: function
+ **/
 const Button = ({title, onClick }) => (
    <div className = 'button-div'>
       { title? 
@@ -11,7 +15,6 @@ const Button = ({title, onClick }) => (
          null
       }
    </div>
-   
 );
 
 export default Button;
